@@ -104,7 +104,7 @@
 
 
 <nav class="site-nav">
-  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/home/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
       <li class="menu-item menu-item-search">
         <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
         </a>
@@ -167,18 +167,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">2</span>
+          <span class="site-state-item-count">3</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-count">3</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-count">8</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -195,6 +195,161 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://rzjzwd.github.io/2025/06/22/lua%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="RZJZWD">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="RZJZWD'site">
+      <meta itemprop="description" content="learn, programme, EE and life">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=" | RZJZWD'site">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2025/06/22/lua%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" class="post-title-link" itemprop="url">lua学习笔记</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2025-06-22 00:00:00" itemprop="dateCreated datePublished" datetime="2025-06-22T00:00:00+08:00">2025-06-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-07-13 19:22:53" itemprop="dateModified" datetime="2025-07-13T19:22:53+08:00">2025-07-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/lua/" itemprop="url" rel="index"><span itemprop="name">-lua</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>本文主要记录学习lua中一些易错，易混淆的点</p>
+<h3 id="逻辑运算符"><a href="#逻辑运算符" class="headerlink" title="逻辑运算符"></a>逻辑运算符</h3><h4 id="and"><a href="#and" class="headerlink" title="and"></a><code>and</code></h4><p>当两个值（无论是数值还是字符串）<code>vala</code>,<code>valb</code>进行<code>and</code>运算时<br>运算式：<code>vala and valb</code></p>
+<ol>
+<li><code>vala valb</code>都为真（也就是不为<code>nil</code>或<code>false</code>）返回<code>valb</code></li>
+<li><code>vala valb</code>有一个为<code>nil</code>或<code>false</code>，返回<code>vala</code><br><strong>示例</strong><br>当有三个变量<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> a = <span class="literal">false</span></span><br><span class="line"><span class="keyword">local</span> b = <span class="number">0</span></span><br><span class="line"><span class="keyword">local</span> c = <span class="number">1</span></span><br></pre></td></tr></table></figure>
+分别进行<code>and</code>运算<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>输出</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>print(b and c)</td>
+<td>1</td>
+</tr>
+<tr>
+<td>print(a and b)</td>
+<td>false</td>
+</tr>
+<tr>
+<td>print(b&gt;-1)</td>
+<td>true</td>
+</tr>
+<tr>
+<td>print(b &gt; -1 and ‘yes’)</td>
+<td>yes</td>
+</tr>
+</tbody></table>
+</li>
+</ol>
+<h4 id="or"><a href="#or" class="headerlink" title="or"></a><code>or</code></h4><p>当两个值（无论是数值还是字符串）<code>vala</code>,<code>valb</code>进行<code>or</code>运算时<br>运算式：<code>vala or valb</code></p>
+<ol>
+<li><code>vala valb</code>任意一个为<code>nil</code>或<code>false</code>，返回不为<code>nil</code>或<code>false</code>的<strong>真</strong>值</li>
+<li><code>vala valb</code>都为<strong>真</strong>返回<code>vala</code></li>
+<li><code>vala valb</code>都为<strong>假</strong>返回<code>valb</code><br><strong>示例</strong><br>当有四个变量<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> a = <span class="literal">false</span></span><br><span class="line"><span class="keyword">local</span> b = <span class="literal">nil</span></span><br><span class="line"><span class="keyword">local</span> c = <span class="number">0</span></span><br><span class="line"><span class="keyword">local</span> d = <span class="number">1</span></span><br></pre></td></tr></table></figure>
+分别进行<code>or</code>运算<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>输出</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>print(a or c) print(b or c)</td>
+<td>0</td>
+</tr>
+<tr>
+<td>print(d or a) print(d or b)</td>
+<td>1</td>
+</tr>
+<tr>
+<td>print(c or d)</td>
+<td>0</td>
+</tr>
+<tr>
+<td>print(b or c)</td>
+<td>1</td>
+</tr>
+<tr>
+<td>print(a or b)</td>
+<td>nil</td>
+</tr>
+<tr>
+<td>print(b or a)</td>
+<td>false</td>
+</tr>
+</tbody></table>
+</li>
+</ol>
+<h4 id="短路求值"><a href="#短路求值" class="headerlink" title="短路求值"></a>短路求值</h4><p>形如<code>print(b &gt; 10 and &quot;yes&quot; or &quot;no&quot;)</code><br>假设<code>b&gt;10</code>是<code>false</code>，先和<code>&quot;yes&quot;</code>进行与运算，得<code>false</code>;再或运算，得<code>&quot;no&quot;</code><br>假设<code>b&gt;10</code>是<code>true</code>， 先和<code>&quot;yes&quot;</code>进行与运算，得<code>&quot;yes&quot;</code>;再或运算，得<code>&quot;yes&quot;</code><br><strong>示例</strong></p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> b = <span class="number">0</span></span><br><span class="line"><span class="built_in">print</span>(b &gt; <span class="number">10</span> <span class="keyword">and</span> <span class="string">&quot;yes&quot;</span> <span class="keyword">or</span> <span class="string">&quot;no&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(b &gt; <span class="number">-1</span> <span class="keyword">and</span> <span class="string">&#x27;yes&#x27;</span> <span class="keyword">or</span> <span class="string">&#x27;no&#x27;</span>)</span><br><span class="line">输出</span><br><span class="line">no</span><br><span class="line">yes</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
