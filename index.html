@@ -167,7 +167,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-count">4</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -178,7 +178,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -195,6 +195,164 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://rzjzwd.github.io/2025/07/13/FreeRTOS%E5%A4%87%E5%BF%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="RZJZWD">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="RZJZWD'site">
+      <meta itemprop="description" content="learn, programme, EE and life">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=" | RZJZWD'site">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2025/07/13/FreeRTOS%E5%A4%87%E5%BF%98/" class="post-title-link" itemprop="url">FreeRTOS备忘</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2025-07-13 19:26:27" itemprop="dateCreated datePublished" datetime="2025-07-13T19:26:27+08:00">2025-07-13</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本文章用于记录学习FreeRTOS中使用过的函数，功能等内容，目的是为了方便自己快速查函数用法，归档和踩坑记录。</p>
+<blockquote>
+<p>文章主要分为以下几个板块：任务管理，队列机制，中断管理（待补充…）<br>每个板块的大致组织结构为:<br>1.函数名称<br>2.函数参数<br>3.函数作用<br>4.函数注意及踩坑</p>
+</blockquote>
+<h2 id="任务管理"><a href="#任务管理" class="headerlink" title="任务管理"></a>任务管理</h2><p>这里主要介绍FreeRTOS的任务管理机制，主要是任务相关函数的使用</p>
+<h3 id="任务创建"><a href="#任务创建" class="headerlink" title="任务创建"></a>任务创建</h3><h4 id="动态任务创建"><a href="#动态任务创建" class="headerlink" title="动态任务创建"></a>动态任务创建</h4><ol>
+<li><p><strong>函数名称：</strong><code>xTaskCreate</code></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">xTaskCreate(TaskFunction_t pxTaskCode,                  <span class="comment">//任务函数指针</span></span><br><span class="line">            <span class="type">const</span> <span class="type">char</span> * <span class="type">const</span> pcName,                  <span class="comment">//任务名称</span></span><br><span class="line">            <span class="type">const</span> configSTACK_DEPTH_TYPE usStackDepth,  <span class="comment">//栈大小</span></span><br><span class="line">            <span class="type">void</span> * <span class="type">const</span> pvParameters,                  <span class="comment">//任务参数</span></span><br><span class="line">            UBaseType_t uxPriority,                     <span class="comment">//任务优先级</span></span><br><span class="line">            TaskHandle_t * <span class="type">const</span> pxCreatedTask )        <span class="comment">//任务句柄</span></span><br></pre></td></tr></table></figure></li>
+<li><p><strong>函数参数：</strong>  前几个参数都是用户自定义的，在传入参数的时候需要注意<strong>数据类型</strong>  </p>
+</li>
+<li><p><strong>函数作用：</strong> 如函数名称所示，是动态创建任务函数，与之相对还有一个静态创建任务函数</p>
+</li>
+<li><p><strong>注意：</strong> 如参数部分所示</p>
+</li>
+</ol>
+<p><strong>示例</strong>：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//任务优先级</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> START_TASK_PRIO			1</span></span><br><span class="line"><span class="comment">//任务堆栈，实际为*4，是因为数据类型为uint32_t</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> START_STACK_SIZE		128</span></span><br><span class="line"><span class="comment">//任务句柄，是任务堆栈栈顶</span></span><br><span class="line">TaskHandle_t StartTask_Handler;</span><br><span class="line"><span class="comment">//任务函数声明</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">StartTask</span><span class="params">(<span class="type">void</span> *pvParameters)</span>;</span><br></pre></td></tr></table></figure>
+<p>（待补充。。。）</p>
+<h3 id="任务删除"><a href="#任务删除" class="headerlink" title="任务删除"></a>任务删除</h3><h4 id="动态任务删除"><a href="#动态任务删除" class="headerlink" title="动态任务删除"></a>动态任务删除</h4><ol>
+<li><p><strong>函数名称：</strong><code>vTaskDelete</code></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vTaskDelete( TaskHandle_t xTaskToDelete )</span><br></pre></td></tr></table></figure></li>
+<li><p><strong>函数参数：</strong>  传入想要删除的任务的句柄，在传入参数的时候需要注意<strong>数据类型</strong>  </p>
+</li>
+<li><p><strong>函数作用：</strong> 如函数名称所示，是动态删除任务函数，与之相对还有一个静态删除任务函数</p>
+</li>
+<li><p><strong>注意：</strong> 如果是只执行一次的函数，在执行结束后一定要删除自己，释放内存</p>
+</li>
+</ol>
+<p><strong>示例</strong>：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vTaskDelete(StartTask_Handler);</span><br></pre></td></tr></table></figure>
+
+<p>（待补充。。。）</p>
+<h3 id="任务挂起与恢复"><a href="#任务挂起与恢复" class="headerlink" title="任务挂起与恢复"></a>任务挂起与恢复</h3><h4 id="任务挂起"><a href="#任务挂起" class="headerlink" title="任务挂起"></a>任务挂起</h4><ol>
+<li><strong>函数名称：</strong><code>vTaskSuspend</code><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">vTaskSuspend</span><span class="params">( TaskHandle_t xTaskToSuspend)</span></span><br></pre></td></tr></table></figure></li>
+<li><strong>函数参数：</strong> 传入任务句柄，注意<strong>数据类型</strong></li>
+<li><strong>注意：</strong> 参数为<code>NULL</code>则是挂起自身，任务句柄可以通过<code>xTaskGetHandle()</code>根据任务名来获取</li>
+</ol>
+<h4 id="任务恢复"><a href="#任务恢复" class="headerlink" title="任务恢复"></a>任务恢复</h4><ol>
+<li><strong>函数名称：</strong><code>vTaskResume()</code><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">vTaskResume</span><span class="params">( TaskHandle_t xTaskToResume)</span></span><br></pre></td></tr></table></figure></li>
+<li><strong>函数参数：</strong> 传入任务句柄，注意<strong>数据类型</strong></li>
+</ol>
+<h4 id="任务恢复FromISR"><a href="#任务恢复FromISR" class="headerlink" title="任务恢复FromISR"></a>任务恢复FromISR</h4><ol>
+<li><strong>函数名称：</strong><code>vTaskResumeFromISR()</code><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">BaseType_t <span class="title function_">xTaskResumeFromISR</span><span class="params">( TaskHandle_t xTaskToResume)</span></span><br></pre></td></tr></table></figure></li>
+<li><strong>函数参数：</strong> 传入任务句柄，注意<strong>数据类型</strong></li>
+<li><strong>注意：</strong> 在中断服务函数中使用</li>
+<li><strong>返回值</strong><br><code>pdTURE</code> 要恢复的任务优先级高于或等于当前运行中的任务优先级（被打断的任务），也就是说出中断后要进行一次上下文切换<br><code>pdFALSE</code> 与上面的相反，不用上下文切换</li>
+</ol>
+<h3 id="临界区保护"><a href="#临界区保护" class="headerlink" title="临界区保护"></a>临界区保护</h3><p>临界区是介于各个任务之间公共区域，每个任务都可以访问其内部资源，这势必会导致资源竞争，所以在进入临界区时要进行临界区保护，关闭中断，保护内部完整性执行</p>
+<h4 id="进入-退出临界区"><a href="#进入-退出临界区" class="headerlink" title="进入&#x2F;退出临界区"></a>进入&#x2F;退出临界区</h4><ol>
+<li><p><strong>函数名称：</strong><br><code>taskENTER_CRITICAL</code><br><code>taskEXIT_CRITICAL</code></p>
+</li>
+<li><p><strong>函数参数：</strong>  NULL</p>
+</li>
+<li><p><strong>函数作用：</strong> 如函数名称所示<br>执行<code>taskENTER_CRITICAL</code>，进入临界区，关中断，调度器依赖的systick定时器也被关闭，所以不会有任何其他高优先级任务打断。<br>执行<code>taskENTER_CRITICAL</code>，退出临界区，开中断，调度恢复</p>
+</li>
+<li><p><strong>注意：</strong> 临界区因为不能调度任务，所以临界区内代码尽量简洁，执行越快越好，不影响系统的实时性</p>
+</li>
+</ol>
+<p><strong>示例：</strong> </p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">taskENTER_CRITICAL();</span><br><span class="line"><span class="comment">//读写变量，调用公共函数</span></span><br><span class="line">taskEXIT_CRITICAL();</span><br></pre></td></tr></table></figure>
+<h4 id="进入-退出临界区FromISR"><a href="#进入-退出临界区FromISR" class="headerlink" title="进入&#x2F;退出临界区FromISR"></a>进入&#x2F;退出临界区FromISR</h4><ol>
+<li><p><strong>函数名称：</strong><br><code>taskENTER_CRITICAL_FROM_ISR()</code><br><code>taskEXIT_CRITICAL_FROM_ISR(x)</code><br>本质是宏定义，在<code>portmacro.h</code>中定义</p>
+</li>
+<li><p><strong>函数参数：</strong>  NULL，x</p>
+</li>
+<li><p><strong>函数作用：</strong> 如函数名称所示<br>在中断内执行<code>taskENTER_CRITICAL_FROM_ISR()</code>，进入临界区，关中断，保存当前<code>BASEPRI</code>寄存器值，写入<code>configMAX_SYSCALL_INTERRUPT_PRIORITY</code>，返回之前的<code>BASEPRI</code>寄存器值(手动保存<strong>中断屏蔽寄存器</strong>上下文)，退出临界区时要用到<br>在中断内执行<code>taskEXIT_CRITICAL_FROM_ISR()</code>，退出临界区，读进入临界区返回的值，恢复之前的中断</p>
+</li>
+<li><p><strong>注意：</strong> 临界区因为不能调度任务，所以临界区内代码尽量简洁，执行越快越好，不影响系统的实时性</p>
+</li>
+</ol>
+<p><strong>示例：</strong> </p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">BASEPRI_value = taskENTER_CRITICAL_FROM_ISR();</span><br><span class="line"><span class="comment">//读写变量，调用公共函数</span></span><br><span class="line">taskEXIT_CRITICAL(BASEPRI_value);</span><br></pre></td></tr></table></figure>
+
+<h3 id="延时"><a href="#延时" class="headerlink" title="延时"></a>延时</h3><h4 id="相对延时"><a href="#相对延时" class="headerlink" title="相对延时"></a>相对延时</h4><p><code>vTaskDelay()</code><br><strong>参数</strong> <code>xTicksToDelay</code>要延迟的时间<br><strong>说明</strong> 以调用此函数的时间为起点进行延时，每次延时的时间受逻辑运行影响，不稳定<br>适用于简单的非周期任务，或者等待外部事件的固定时长</p>
+<h4 id="绝对延时"><a href="#绝对延时" class="headerlink" title="绝对延时"></a>绝对延时</h4><p><code>xTaskDelayUntil()</code><br><strong>参数</strong><br><code>pxPreviousWakeTime</code>  第一次使用绝对延迟函数要将此参数在while循环外初始化</p>
+<blockquote>
+<p><code>TickType_t xLastWakeTime</code> &#x3D; <code>xTaskGetTickCount()</code>; &#x2F;&#x2F; 正确<br><strong>不是</strong> <code>TickType_t xLastWakeTime</code>;（未初始化） </p>
+</blockquote>
+<p><code>xTimeIncrement</code> 任务延迟的时间节拍数，相对于<code>pxPreviousWakeTime</code>而言  </p>
+<p><strong>说明</strong><br>绝对的周期执行，同时会阻塞任务，因为要保证绝对的周期。但是遇到高优先级和中断还是不能执行，不够函数会自动补偿时间<br><strong>情况一</strong>：如果100ms的延时，但是执行<strong>task1</strong>执行了<strong>20ms</strong>，那就将<strong>task1</strong>阻塞<strong>80ms</strong>来保证绝对延时<br><strong>情况二</strong>：如果100ms的延时，但是执行<strong>task1</strong>被抢占耗时<strong>10ms</strong>，那就将<strong>task1</strong>阻塞<strong>90ms</strong>来保证绝对延时  </p>
+<p><strong>注意</strong>  </p>
+<ol>
+<li>绝对延时函数参数初始化在<strong>循环外</strong></li>
+<li>不能在临界区调用，会导致<strong>任务无法切换</strong></li>
+<li>任务处理时间不能<strong>超过</strong>延时时间，否则会跳过阻塞一直执行</li>
+</ol>
+<h3 id="任务信息"><a href="#任务信息" class="headerlink" title="任务信息"></a>任务信息</h3><h4 id=""><a href="#" class="headerlink" title=""></a></h4><h2 id="列表、队列"><a href="#列表、队列" class="headerlink" title="列表、队列"></a>列表、队列</h2><h2 id="中断"><a href="#中断" class="headerlink" title="中断"></a>中断</h2><h3 id="中断管理"><a href="#中断管理" class="headerlink" title="中断管理"></a>中断管理</h3><h4 id="开关中断"><a href="#开关中断" class="headerlink" title="开关中断"></a>开关中断</h4><ol>
+<li><strong>函数名称</strong> <code>portENABLE_INTERRUPTS ()</code> <code>portDISABLE_INTERRUPTS()</code> 本质上是宏定义，在<code>portmacro.h</code>中定义</li>
+<li><strong>注意</strong> 开中断就是向<code>BASEPRI</code>寄存器写入<code>0</code>，<code>BASEPRI</code>寄存器是一个可编程的中断屏蔽寄存器，写入<code>0</code>就是停止屏蔽也就是开，关中断就是写入<code>configMAX_SYSCALL_INTERRUPT_PRIORITY</code>,比如写入<code>0x60</code>来屏蔽<strong>优先级</strong>低于<code>0x60</code>的中断</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
