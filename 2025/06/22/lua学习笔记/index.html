@@ -19,12 +19,12 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"rzjzwd.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.23.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":"mac","style":null},"fold":{"enable":true,"height":500},"language":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":"ture","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
 
-    <meta name="description" content="前言本文主要记录学习lua中一些易错，易混淆的点">
+    <meta name="description" content="&#x524D;&#x8A00;&#x672C;&#x6587;&#x4E3B;&#x8981;&#x8BB0;&#x5F55;&#x5B66;&#x4E60;lua&#x4E2D;&#x4E00;&#x4E9B;&#x6613;&#x9519;&#xFF0C;&#x6613;&#x6DF7;&#x6DC6;&#x7684;&#x70B9;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="lua学习笔记">
 <meta property="og:url" content="https://rzjzwd.github.io/2025/06/22/lua%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="RZJZWD&#39;site">
-<meta property="og:description" content="前言本文主要记录学习lua中一些易错，易混淆的点">
+<meta property="og:description" content="&#x524D;&#x8A00;&#x672C;&#x6587;&#x4E3B;&#x8981;&#x8BB0;&#x5F55;&#x5B66;&#x4E60;lua&#x4E2D;&#x4E00;&#x4E9B;&#x6613;&#x9519;&#xFF0C;&#x6613;&#x6DF7;&#x6DC6;&#x7684;&#x70B9;">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-06-21T16:00:00.000Z">
 <meta property="article:modified_time" content="2025-07-23T04:40:21.397Z">
@@ -266,17 +266,17 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>本文主要记录学习lua中一些易错，易混淆的点</p>
+    <div class="post-body" itemprop="articleBody"><h3 id="&#x524D;&#x8A00;"><a href="#&#x524D;&#x8A00;" class="headerlink" title="&#x524D;&#x8A00;"></a>&#x524D;&#x8A00;</h3><p>&#x672C;&#x6587;&#x4E3B;&#x8981;&#x8BB0;&#x5F55;&#x5B66;&#x4E60;lua&#x4E2D;&#x4E00;&#x4E9B;&#x6613;&#x9519;&#xFF0C;&#x6613;&#x6DF7;&#x6DC6;&#x7684;&#x70B9;</p>
 <span id="more"></span>
-<h3 id="逻辑运算符"><a href="#逻辑运算符" class="headerlink" title="逻辑运算符"></a>逻辑运算符</h3><h4 id="and"><a href="#and" class="headerlink" title="and"></a><code>and</code></h4><p>当两个值（无论是数值还是字符串）<code>vala</code>,<code>valb</code>进行<code>and</code>运算时<br>运算式：<code>vala and valb</code></p>
+<h3 id="&#x903B;&#x8F91;&#x8FD0;&#x7B97;&#x7B26;"><a href="#&#x903B;&#x8F91;&#x8FD0;&#x7B97;&#x7B26;" class="headerlink" title="&#x903B;&#x8F91;&#x8FD0;&#x7B97;&#x7B26;"></a>&#x903B;&#x8F91;&#x8FD0;&#x7B97;&#x7B26;</h3><h4 id="and"><a href="#and" class="headerlink" title="and"></a><code>and</code></h4><p>&#x5F53;&#x4E24;&#x4E2A;&#x503C;&#xFF08;&#x65E0;&#x8BBA;&#x662F;&#x6570;&#x503C;&#x8FD8;&#x662F;&#x5B57;&#x7B26;&#x4E32;&#xFF09;<code>vala</code>,<code>valb</code>&#x8FDB;&#x884C;<code>and</code>&#x8FD0;&#x7B97;&#x65F6;<br>&#x8FD0;&#x7B97;&#x5F0F;&#xFF1A;<code>vala and valb</code></p>
 <ol>
-<li><code>vala valb</code>都为真（也就是不为<code>nil</code>或<code>false</code>）返回<code>valb</code></li>
-<li><code>vala valb</code>有一个为<code>nil</code>或<code>false</code>，返回<code>vala</code><br><strong>示例</strong><br>当有三个变量<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> a = <span class="literal">false</span></span><br><span class="line"><span class="keyword">local</span> b = <span class="number">0</span></span><br><span class="line"><span class="keyword">local</span> c = <span class="number">1</span></span><br></pre></td></tr></table></figure>
-分别进行<code>and</code>运算<table>
+<li><code>vala valb</code>&#x90FD;&#x4E3A;&#x771F;&#xFF08;&#x4E5F;&#x5C31;&#x662F;&#x4E0D;&#x4E3A;<code>nil</code>&#x6216;<code>false</code>&#xFF09;&#x8FD4;&#x56DE;<code>valb</code></li>
+<li><code>vala valb</code>&#x6709;&#x4E00;&#x4E2A;&#x4E3A;<code>nil</code>&#x6216;<code>false</code>&#xFF0C;&#x8FD4;&#x56DE;<code>vala</code><br><strong>&#x793A;&#x4F8B;</strong><br>&#x5F53;&#x6709;&#x4E09;&#x4E2A;&#x53D8;&#x91CF;<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> a = <span class="literal">false</span></span><br><span class="line"><span class="keyword">local</span> b = <span class="number">0</span></span><br><span class="line"><span class="keyword">local</span> c = <span class="number">1</span></span><br></pre></td></tr></table></figure>
+&#x5206;&#x522B;&#x8FDB;&#x884C;<code>and</code>&#x8FD0;&#x7B97;<table>
 <thead>
 <tr>
-<th>函数</th>
-<th>输出</th>
+<th>&#x51FD;&#x6570;</th>
+<th>&#x8F93;&#x51FA;</th>
 </tr>
 </thead>
 <tbody><tr>
@@ -292,22 +292,22 @@
 <td>true</td>
 </tr>
 <tr>
-<td>print(b &gt; -1 and ‘yes’)</td>
+<td>print(b &gt; -1 and &#x2018;yes&#x2019;)</td>
 <td>yes</td>
 </tr>
 </tbody></table>
 </li>
 </ol>
-<h4 id="or"><a href="#or" class="headerlink" title="or"></a><code>or</code></h4><p>当两个值（无论是数值还是字符串）<code>vala</code>,<code>valb</code>进行<code>or</code>运算时<br>运算式：<code>vala or valb</code></p>
+<h4 id="or"><a href="#or" class="headerlink" title="or"></a><code>or</code></h4><p>&#x5F53;&#x4E24;&#x4E2A;&#x503C;&#xFF08;&#x65E0;&#x8BBA;&#x662F;&#x6570;&#x503C;&#x8FD8;&#x662F;&#x5B57;&#x7B26;&#x4E32;&#xFF09;<code>vala</code>,<code>valb</code>&#x8FDB;&#x884C;<code>or</code>&#x8FD0;&#x7B97;&#x65F6;<br>&#x8FD0;&#x7B97;&#x5F0F;&#xFF1A;<code>vala or valb</code></p>
 <ol>
-<li><code>vala valb</code>任意一个为<code>nil</code>或<code>false</code>，返回不为<code>nil</code>或<code>false</code>的<strong>真</strong>值</li>
-<li><code>vala valb</code>都为<strong>真</strong>返回<code>vala</code></li>
-<li><code>vala valb</code>都为<strong>假</strong>返回<code>valb</code><br><strong>示例</strong><br>当有四个变量<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> a = <span class="literal">false</span></span><br><span class="line"><span class="keyword">local</span> b = <span class="literal">nil</span></span><br><span class="line"><span class="keyword">local</span> c = <span class="number">0</span></span><br><span class="line"><span class="keyword">local</span> d = <span class="number">1</span></span><br></pre></td></tr></table></figure>
-分别进行<code>or</code>运算<table>
+<li><code>vala valb</code>&#x4EFB;&#x610F;&#x4E00;&#x4E2A;&#x4E3A;<code>nil</code>&#x6216;<code>false</code>&#xFF0C;&#x8FD4;&#x56DE;&#x4E0D;&#x4E3A;<code>nil</code>&#x6216;<code>false</code>&#x7684;<strong>&#x771F;</strong>&#x503C;</li>
+<li><code>vala valb</code>&#x90FD;&#x4E3A;<strong>&#x771F;</strong>&#x8FD4;&#x56DE;<code>vala</code></li>
+<li><code>vala valb</code>&#x90FD;&#x4E3A;<strong>&#x5047;</strong>&#x8FD4;&#x56DE;<code>valb</code><br><strong>&#x793A;&#x4F8B;</strong><br>&#x5F53;&#x6709;&#x56DB;&#x4E2A;&#x53D8;&#x91CF;<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> a = <span class="literal">false</span></span><br><span class="line"><span class="keyword">local</span> b = <span class="literal">nil</span></span><br><span class="line"><span class="keyword">local</span> c = <span class="number">0</span></span><br><span class="line"><span class="keyword">local</span> d = <span class="number">1</span></span><br></pre></td></tr></table></figure>
+&#x5206;&#x522B;&#x8FDB;&#x884C;<code>or</code>&#x8FD0;&#x7B97;<table>
 <thead>
 <tr>
-<th>函数</th>
-<th>输出</th>
+<th>&#x51FD;&#x6570;</th>
+<th>&#x8F93;&#x51FA;</th>
 </tr>
 </thead>
 <tbody><tr>
@@ -337,8 +337,8 @@
 </tbody></table>
 </li>
 </ol>
-<h4 id="短路求值"><a href="#短路求值" class="headerlink" title="短路求值"></a>短路求值</h4><p>形如<code>print(b &gt; 10 and &quot;yes&quot; or &quot;no&quot;)</code><br>假设<code>b&gt;10</code>是<code>false</code>，先和<code>&quot;yes&quot;</code>进行与运算，得<code>false</code>;再或运算，得<code>&quot;no&quot;</code><br>假设<code>b&gt;10</code>是<code>true</code>， 先和<code>&quot;yes&quot;</code>进行与运算，得<code>&quot;yes&quot;</code>;再或运算，得<code>&quot;yes&quot;</code><br><strong>示例</strong></p>
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> b = <span class="number">0</span></span><br><span class="line"><span class="built_in">print</span>(b &gt; <span class="number">10</span> <span class="keyword">and</span> <span class="string">&quot;yes&quot;</span> <span class="keyword">or</span> <span class="string">&quot;no&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(b &gt; <span class="number">-1</span> <span class="keyword">and</span> <span class="string">&#x27;yes&#x27;</span> <span class="keyword">or</span> <span class="string">&#x27;no&#x27;</span>)</span><br><span class="line">输出</span><br><span class="line">no</span><br><span class="line">yes</span><br></pre></td></tr></table></figure>
+<h4 id="&#x77ED;&#x8DEF;&#x6C42;&#x503C;"><a href="#&#x77ED;&#x8DEF;&#x6C42;&#x503C;" class="headerlink" title="&#x77ED;&#x8DEF;&#x6C42;&#x503C;"></a>&#x77ED;&#x8DEF;&#x6C42;&#x503C;</h4><p>&#x5F62;&#x5982;<code>print(b &gt; 10 and &quot;yes&quot; or &quot;no&quot;)</code><br>&#x5047;&#x8BBE;<code>b&gt;10</code>&#x662F;<code>false</code>&#xFF0C;&#x5148;&#x548C;<code>&quot;yes&quot;</code>&#x8FDB;&#x884C;&#x4E0E;&#x8FD0;&#x7B97;&#xFF0C;&#x5F97;<code>false</code>;&#x518D;&#x6216;&#x8FD0;&#x7B97;&#xFF0C;&#x5F97;<code>&quot;no&quot;</code><br>&#x5047;&#x8BBE;<code>b&gt;10</code>&#x662F;<code>true</code>&#xFF0C; &#x5148;&#x548C;<code>&quot;yes&quot;</code>&#x8FDB;&#x884C;&#x4E0E;&#x8FD0;&#x7B97;&#xFF0C;&#x5F97;<code>&quot;yes&quot;</code>;&#x518D;&#x6216;&#x8FD0;&#x7B97;&#xFF0C;&#x5F97;<code>&quot;yes&quot;</code><br><strong>&#x793A;&#x4F8B;</strong></p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> b = <span class="number">0</span></span><br><span class="line"><span class="built_in">print</span>(b &gt; <span class="number">10</span> <span class="keyword">and</span> <span class="string">&quot;yes&quot;</span> <span class="keyword">or</span> <span class="string">&quot;no&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(b &gt; <span class="number">-1</span> <span class="keyword">and</span> <span class="string">&apos;yes&apos;</span> <span class="keyword">or</span> <span class="string">&apos;no&apos;</span>)</span><br><span class="line">&#x8F93;&#x51FA;</span><br><span class="line">no</span><br><span class="line">yes</span><br></pre></td></tr></table></figure>
     </div>
 
     
