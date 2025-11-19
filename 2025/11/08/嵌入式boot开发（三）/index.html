@@ -28,10 +28,9 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://rzjzwd.github.io/images/boot3%E7%8A%B6%E6%80%81%E6%9C%BA%E5%9B%BE.png">
 <meta property="article:published_time" content="2025-11-08T10:18:00.000Z">
-<meta property="article:modified_time" content="2025-11-08T13:51:25.376Z">
+<meta property="article:modified_time" content="2025-11-19T08:05:41.789Z">
 <meta property="article:author" content="RZJZWD">
-<meta property="article:tag" content="STM32">
-<meta property="article:tag" content="BootLoader">
+<meta property="article:tag" content="+ STM32 + BootLoader">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://rzjzwd.github.io/images/boot3%E7%8A%B6%E6%80%81%E6%9C%BA%E5%9B%BE.png">
 
@@ -180,12 +179,12 @@
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-count">7</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-count">14</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -240,9 +239,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2025-11-08 18:18:00 / 修改时间：21:51:25" itemprop="dateCreated datePublished" datetime="2025-11-08T18:18:00+08:00">2025-11-08</time>
+      <time title="创建时间：2025-11-08 18:18:00" itemprop="dateCreated datePublished" datetime="2025-11-08T18:18:00+08:00">2025-11-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-11-19 16:05:41" itemprop="dateModified" datetime="2025-11-19T16:05:41+08:00">2025-11-19</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -250,7 +255,7 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Bootloader/" itemprop="url" rel="index"><span itemprop="name">Bootloader</span></a>
+          <a href="/categories/Bootloader/" itemprop="url" rel="index"><span itemprop="name">+ Bootloader</span></a>
         </span>
     </span>
 
@@ -328,7 +333,8 @@
 <li><p>&#x5E27;&#x6821;&#x9A8C;&#x6570;&#x636E;&#xFF0C;&#x4ECE;&#x547D;&#x4EE4;&#x5B57;&#x5230;&#x6570;&#x636E;&#x7ED3;&#x675F;&#x7684;<strong>&#x7D2F;&#x52A0;&#x548C;&#x53D6;&#x53CD;</strong></p>
 </li>
 </ul>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// &#x547D;&#x4EE4;&#x5E27;&#x6570;&#x636E;&#x957F;&#x5EA6;&#x5927;&#x5C0F;</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> FRAME_DATA_SIZE 2048</span></span><br><span class="line"><span class="comment">// &#x547D;&#x4EE4;&#x5E27;&#x7ED3;&#x6784;</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> {</span></span><br><span class="line">    <span class="type">command_type_t</span> command;</span><br><span class="line">    <span class="comment">// &#x4E0A;&#x4F4D;&#x673A;&#x4F20;&#x6765;&#x7684;&#x957F;&#x5EA6;&#x4E3A;&#x5C0F;&#x7AEF;&#x5E8F;&#x7EC4;&#x6210;&#x7684;&#x4E24;&#x5B57;&#x8282;&#x6570;&#x636E;&#xFF0C;&#x6240;&#x4EE5;&#x5148;&#x6536;&#x5230;&#x4F4E;&#x5B57;&#x8282;&#xFF0C;&#x518D;&#x6536;&#x9AD8;&#x5B57;&#x8282;</span></span><br><span class="line">    <span class="type">uint16_t</span> data_length;</span><br><span class="line">    <span class="type">uint8_t</span> data[FRAME_DATA_SIZE];</span><br><span class="line">    <span class="type">uint8_t</span> checksum;</span><br><span class="line">} <span class="type">command_frame_t</span>;</span><br><span class="line">&lt;a id=<span class="string">&quot;boot&#x547D;&#x4EE4;&#x5E27;&#x89E3;&#x6790;&#x4EE3;&#x7801;&quot;</span>&gt;&lt;/a&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><a id="boot&#x547D;&#x4EE4;&#x5E27;&#x89E3;&#x6790;&#x4EE3;&#x7801;"></a></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// &#x547D;&#x4EE4;&#x5E27;&#x6570;&#x636E;&#x957F;&#x5EA6;&#x5927;&#x5C0F;</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> FRAME_DATA_SIZE 2048</span></span><br><span class="line"><span class="comment">// &#x547D;&#x4EE4;&#x5E27;&#x7ED3;&#x6784;</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> {</span></span><br><span class="line">    <span class="type">command_type_t</span> command;</span><br><span class="line">    <span class="comment">// &#x4E0A;&#x4F4D;&#x673A;&#x4F20;&#x6765;&#x7684;&#x957F;&#x5EA6;&#x4E3A;&#x5C0F;&#x7AEF;&#x5E8F;&#x7EC4;&#x6210;&#x7684;&#x4E24;&#x5B57;&#x8282;&#x6570;&#x636E;&#xFF0C;&#x6240;&#x4EE5;&#x5148;&#x6536;&#x5230;&#x4F4E;&#x5B57;&#x8282;&#xFF0C;&#x518D;&#x6536;&#x9AD8;&#x5B57;&#x8282;</span></span><br><span class="line">    <span class="type">uint16_t</span> data_length;</span><br><span class="line">    <span class="type">uint8_t</span> data[FRAME_DATA_SIZE];</span><br><span class="line">    <span class="type">uint8_t</span> checksum;</span><br><span class="line">} <span class="type">command_frame_t</span>;</span><br></pre></td></tr></table></figure>
 
 <h3 id="&#x56FA;&#x4EF6;&#x5305;"><a href="#&#x56FA;&#x4EF6;&#x5305;" class="headerlink" title="&#x56FA;&#x4EF6;&#x5305;"></a>&#x56FA;&#x4EF6;&#x5305;</h3><p>&#x56FA;&#x4EF6;&#x901A;&#x5E38;&#x90FD;&#x662F;&#x5341;&#x51E0;&#x6216;&#x8005;&#x51E0;&#x5341;KB&#xFF0C;&#x6240;&#x4EE5;&#x8FD9;&#x91CC;&#x91C7;&#x53D6;&#x5206;&#x5305;&#x4F20;&#x8F93;&#x7684;&#x7B56;&#x7565;&#xFF0C;&#x5C06;&#x4E00;&#x4E2A;&#x56FA;&#x4EF6;&#x6309;&#x7167;&#x9884;&#x5148;&#x8BBE;&#x5B9A;&#x7684;&#x5305;&#x5927;&#x5C0F;&#x8FDB;&#x884C;&#x62C6;&#x5206;&#xFF1B;&#x6BD4;&#x5982;&#x4E00;&#x4E2A;19KB&#x7684;&#x56FA;&#x4EF6;&#xFF0C;&#x6309;&#x7167;1KB&#x7684;&#x5305;&#x5927;&#x5C0F;&#x62C6;&#x5206;&#x6210;19&#x4E2A;&#x5305;&#x3002;<br>&#x5728;&#x4E0A;&#x4F4D;&#x673A;&#x5411;&#x4E0B;&#x4F4D;&#x673A;&#x4F20;&#x6570;&#x636E;&#x5305;&#x65F6;&#xFF0C;&#x4E3A;&#x4E86;&#x9632;&#x6B62;&#x6570;&#x636E;&#x5305;&#x5728;&#x4F20;&#x8F93;&#x8FC7;&#x7A0B;&#x4E2D;&#x56E0;&#x4E3A;&#x79CD;&#x79CD;&#x53EF;&#x80FD;&#x7684;&#x5E72;&#x6270;&#x5BFC;&#x81F4;&#x62A5;&#x6570;&#x636E;&#x51FA;&#x9519;&#xFF0C;&#x8FD9;&#x91CC;&#x91C7;&#x7528;<strong>CRC32</strong>&#x6821;&#x9A8C;&#x6765;&#x7528;&#x4E8E;&#x4E0B;&#x4F4D;&#x673A;&#x786E;&#x8BA4;&#x5305;&#x5B8C;&#x6574;&#x6027;<br>&#x56E0;&#x6B64;&#x4E00;&#x4E2A;&#x5305;&#x6570;&#x636E;&#x7684;&#x6784;&#x6210;&#x4E3A;: <strong>[&#x5F53;&#x524D;&#x5305;&#x53F7;] [&#x603B;&#x5305;&#x53F7;] [&#x5305;&#x6570;&#x636E;(&#x5047;&#x8BBE;&#x4E3A;1KB)] [&#x5305;&#x6570;&#x636E;&#x7684;CRC32]</strong></p>
 <ul>
@@ -414,8 +420,7 @@
 
     <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/STM32/" rel="tag"># STM32</a>
-              <a href="/tags/BootLoader/" rel="tag"># BootLoader</a>
+              <a href="/tags/STM32-BootLoader/" rel="tag"># + STM32 + BootLoader</a>
           </div>
 
         
