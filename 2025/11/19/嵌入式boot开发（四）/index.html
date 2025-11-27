@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/icoa_favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"rzjzwd.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.23.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":"mac","style":null},"fold":{"enable":true,"height":500},"language":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":"ture","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="嵌入式bootloader开发：固件包结构微调与查询设备信息与固件下载">
+<meta property="og:type" content="article">
+<meta property="og:title" content="嵌入式boot开发（四）">
+<meta property="og:url" content="https://rzjzwd.github.io/2025/11/19/%E5%B5%8C%E5%85%A5%E5%BC%8Fboot%E5%BC%80%E5%8F%91%EF%BC%88%E5%9B%9B%EF%BC%89/index.html">
+<meta property="og:site_name" content="RZJZWD&#39;site">
+<meta property="og:description" content="嵌入式bootloader开发：固件包结构微调与查询设备信息与固件下载">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-11-19T08:19:00.000Z">
+<meta property="article:modified_time" content="2025-11-27T04:19:10.624Z">
+<meta property="article:author" content="RZJZWD">
+<meta property="article:tag" content="STM32">
+<meta property="article:tag" content="BootLoader">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://rzjzwd.github.io/2025/11/19/%E5%B5%8C%E5%85%A5%E5%BC%8Fboot%E5%BC%80%E5%8F%91%EF%BC%88%E5%9B%9B%EF%BC%89/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://rzjzwd.github.io/2025/11/19/%E5%B5%8C%E5%85%A5%E5%BC%8Fboot%E5%BC%80%E5%8F%91%EF%BC%88%E5%9B%9B%EF%BC%89/","path":"2025/11/19/嵌入式boot开发（四）/","title":"嵌入式boot开发（四）"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>嵌入式boot开发（四） | RZJZWD'site</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">RZJZWD'site</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Welcome to my site</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E5%A4%87%E4%BF%A1%E6%81%AF%E6%9F%A5%E8%AF%A2"><span class="nav-number">2.</span> <span class="nav-text">设备信息查询</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E5%A4%87%E4%BF%A1%E6%81%AF%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="nav-number">2.1.</span> <span class="nav-text">设备信息数据类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E5%A4%87%E4%BF%A1%E6%81%AF%E8%AF%BB%E5%8F%96%E4%B8%8E%E5%8F%91%E9%80%81"><span class="nav-number">2.2.</span> <span class="nav-text">设备信息读取与发送</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%BA%E4%BB%B6%E4%B8%8B%E8%BD%BD"><span class="nav-number">3.</span> <span class="nav-text">固件下载</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%BA%E4%BB%B6%E5%8C%85%E7%BB%93%E6%9E%84%E5%BE%AE%E8%B0%83"><span class="nav-number">3.1.</span> <span class="nav-text">固件包结构微调</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%BA%E4%BB%B6%E5%8C%85%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="nav-number">3.2.</span> <span class="nav-text">固件包数据类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%BA%E4%BB%B6%E5%8C%85%E8%AF%BB%E5%8F%96%E4%B8%8E%E5%86%99%E5%85%A5"><span class="nav-number">3.3.</span> <span class="nav-text">固件包读取与写入</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BA%90%E7%A0%81%E4%B8%80%E8%A7%88"><span class="nav-number">4.</span> <span class="nav-text">源码一览</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">RZJZWD</p>
+  <div class="site-description" itemprop="description">learn, programme, EE and life</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://rzjzwd.github.io/2025/11/19/%E5%B5%8C%E5%85%A5%E5%BC%8Fboot%E5%BC%80%E5%8F%91%EF%BC%88%E5%9B%9B%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="RZJZWD">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="RZJZWD'site">
+      <meta itemprop="description" content="learn, programme, EE and life">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="嵌入式boot开发（四） | RZJZWD'site">
+      <meta itemprop="description" content="嵌入式bootloader开发：固件包结构微调与查询设备信息与固件下载">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          嵌入式boot开发（四）
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2025-11-19 16:19:00" itemprop="dateCreated datePublished" datetime="2025-11-19T16:19:00+08:00">2025-11-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-11-27 12:19:10" itemprop="dateModified" datetime="2025-11-27T12:19:10+08:00">2025-11-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Bootloader/" itemprop="url" rel="index"><span itemprop="name">Bootloader</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">嵌入式bootloader开发：固件包结构微调与查询设备信息与固件下载</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="&#x524D;&#x8A00;"><a href="#&#x524D;&#x8A00;" class="headerlink" title="&#x524D;&#x8A00;"></a>&#x524D;&#x8A00;</h2><p>&#x5728;&#x4E0A;&#x4E00;&#x7BC7;&#x6587;&#x7AE0;<a href="https://rzjzwd.github.io/2025/11/08/%E5%B5%8C%E5%85%A5%E5%BC%8Fboot%E5%BC%80%E5%8F%91%EF%BC%88%E4%B8%89%EF%BC%89/">&#x5D4C;&#x5165;&#x5F0F;boot&#x5F00;&#x53D1;&#xFF08;&#x4E09;&#xFF09;</a>&#x4E2D;&#xFF0C;&#x6211;&#x4EEC;&#x63A2;&#x8BA8;&#x5E76;&#x5B9E;&#x73B0;&#x4E86;&#x4E00;&#x4E2A;&#x7B80;&#x5355;&#x7684;&#x901A;&#x4FE1;&#x534F;&#x8BAE;&#xFF0C;&#x7136;&#x540E;&#x5BF9;&#x4E4B;&#x524D;&#x7684;&#x72B6;&#x6001;&#x673A;&#x8FDB;&#x884C;&#x4E86;&#x8C03;&#x6574;<br>&#x5728;&#x8FD9;&#x4E00;&#x7AE0;&#x4E2D;&#xFF0C;&#x4E3B;&#x8981;&#x662F;&#x5B9E;&#x73B0;&#x4E0A;&#x4F4D;&#x673A;&#x5BF9;&#x4E0B;&#x4F4D;&#x673A;&#x8BBE;&#x5907;&#x4FE1;&#x606F;&#x7684;&#x8BF7;&#x6C42;&#x548C;&#x4E0B;&#x4F4D;&#x673A;&#x63A5;&#x6536;&#x56FA;&#x4EF6;&#x3002;</p>
+<h2 id="&#x8BBE;&#x5907;&#x4FE1;&#x606F;&#x67E5;&#x8BE2;"><a href="#&#x8BBE;&#x5907;&#x4FE1;&#x606F;&#x67E5;&#x8BE2;" class="headerlink" title="&#x8BBE;&#x5907;&#x4FE1;&#x606F;&#x67E5;&#x8BE2;"></a>&#x8BBE;&#x5907;&#x4FE1;&#x606F;&#x67E5;&#x8BE2;</h2><p>&#x5148;&#x5B9A;&#x4E49;&#x8BBE;&#x5907;&#x4FE1;&#x606F;<br>&#x8FD9;&#x91CC;&#x4F7F;&#x7528;boot_cfg.h&#x6765;&#x7BA1;&#x7406;</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// boot_cfg.h</span></span><br><span class="line"><span class="meta">#<span class="keyword">ifndef</span> _BOOT_CFG_H_</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> _BOOT_CFG_H_</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;stm32h7xx.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// &#x57FA;&#x7840;&#x914D;&#x7F6E;&#xFF0C;&#x53EF;&#x81EA;&#x5B9A;&#x4E49;</span></span><br><span class="line"><span class="comment">// app&#x52A0;&#x8F7D;&#x5730;&#x5740;</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> BOOT_APP_ADDRESS (0x08010000)</span></span><br><span class="line"><span class="comment">// &#x56FA;&#x4EF6;&#x5206;&#x5305;&#x5927;&#x5C0F;</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> BOOT_FIRMWARE_PACKET_SIZE (512)</span></span><br><span class="line"><span class="comment">// &#x547D;&#x4EE4;&#x5E27;&#x4E2D;&#x6570;&#x636E;&#x7684;&#x5927;&#x5C0F;</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> BOOT_FRAME_DATA_SIZE 2048 <span class="comment">// &#x547D;&#x4EE4;&#x5E27;&#x6570;&#x636E;&#x957F;&#x5EA6;</span></span></span><br><span class="line"><span class="comment">// flash&#x7ED3;&#x675F;&#x5730;&#x5740;</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> BOOT_FLASH_END_ADDRESS FLASH_END <span class="comment">// &#x8FD9;&#x91CC;&#x4F7F;&#x7528;&#x7684;hal&#x5E93;&#x5B9A;&#x4E49;</span></span></span><br><span class="line"><span class="comment">// flash&#x5927;&#x5C0F;</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> BOOT_FLASH_SIZE FLASH_SIZE <span class="comment">// &#x8FD9;&#x91CC;&#x4F7F;&#x7528;&#x7684;hal&#x5E93;&#x5B9A;&#x4E49;</span></span></span><br><span class="line"><span class="comment">// &#x8BBE;&#x5907;&#x540D;&#x79F0;</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> BOOT_DEVICE_NAME <span class="string">&quot;STM32H750&quot;</span></span></span><br><span class="line"><span class="comment">// &#x4E0A;&#x7535;&#x7B49;&#x5F85;&#x65F6;&#x95F4;&#x9009;&#x62E9;&#x542F;&#x52A8;&#x6A21;&#x5F0F;&#xFF0C;&#x6BEB;&#x79D2;</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> BOOT_START_WAIT_TIME_MS 2000 <span class="comment">// &#x9009;&#x62E9;&#x542F;&#x52A8;&#x6A21;&#x5F0F;&#x7B49;&#x5F85;</span></span></span><br><span class="line"><span class="comment">// boot&#x7248;&#x672C;</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> BOOT_VERSION <span class="string">&quot;v0.0.1&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+
+<h3 id="&#x8BBE;&#x5907;&#x4FE1;&#x606F;&#x6570;&#x636E;&#x7C7B;&#x578B;"><a href="#&#x8BBE;&#x5907;&#x4FE1;&#x606F;&#x6570;&#x636E;&#x7C7B;&#x578B;" class="headerlink" title="&#x8BBE;&#x5907;&#x4FE1;&#x606F;&#x6570;&#x636E;&#x7C7B;&#x578B;"></a>&#x8BBE;&#x5907;&#x4FE1;&#x606F;&#x6570;&#x636E;&#x7C7B;&#x578B;</h3><p>&#x56E0;&#x4E3A;&#x4E0B;&#x4F4D;&#x673A;&#x548C;&#x4E0A;&#x4F4D;&#x673A;&#x7A0B;&#x5E8F;&#x90FD;&#x662F;<strong>&#x5C0F;&#x7AEF;&#x5E8F;</strong>&#xFF0C;&#x6240;&#x4EE5;&#x8FD9;&#x91CC;&#x76F4;&#x63A5;&#x91C7;&#x7528;&#x8054;&#x5408;&#x4F53;&#x7684;&#x65B9;&#x5F0F;&#xFF0C;&#x5B8F;&#x5B9A;&#x4E49;&#x4E0E;cfg&#x5BF9;&#x5E94;</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// boot.h</span></span><br><span class="line"><span class="comment">// &#x8BBE;&#x5907;&#x4FE1;&#x606F;</span></span><br><span class="line"><span class="comment">// &#x8BBE;&#x5907;&#x540D;&#x79F0;</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> DEVICE_INFO_MODEL BOOT_DEVICE_NAME</span></span><br><span class="line"><span class="comment">// &#x8BBE;&#x5907;flash&#x5927;&#x5C0F;</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> DEVICE_INFO_FLASH_SIZE (BOOT_FLASH_SIZE) <span class="comment">// byte&#x5927;&#x5C0F;</span></span></span><br><span class="line"><span class="comment">// &#x8BBE;&#x5907;app&#x52A0;&#x8F7D;&#x5730;&#x5740;</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> DEVICE_INFO_APP_ADDRESS BOOT_APP_ADDRESS</span></span><br><span class="line"><span class="comment">// &#x8BBE;&#x5907;&#x56FA;&#x4EF6;&#x5206;&#x5305;&#x5927;&#x5C0F;</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> DEVICE_INFO_FIRMWARE_PACKET_SIZE BOOT_FIRMWARE_PACKET_SIZE</span></span><br><span class="line"><span class="comment">// &#x8BBE;&#x5907;boot&#x7248;&#x672C;</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> DEVICE_INFO_BOOT_VERSION BOOT_VERSION</span></span><br><span class="line"><span class="comment">// &#x8BBE;&#x5907;&#x540D;&#x79F0;&#x957F;&#x5EA6;</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> DEVICE_INFO_MODEL_LENGTH 32</span></span><br><span class="line"><span class="comment">// &#x8BBE;&#x5907;boot&#x7248;&#x672C;&#x4FE1;&#x606F;&#x957F;&#x5EA6;</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> DEVICE_INFO_BOOT_VERSION_LENGTH 16</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// &#x8BBE;&#x5907;&#x4FE1;&#x606F;&#x7ED3;&#x6784;&#x4F53;&#xFF08;1&#x5B57;&#x8282;&#x5BF9;&#x9F50;&#xFF09;</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> {</span></span><br><span class="line">    <span class="type">char</span> model[DEVICE_INFO_MODEL_LENGTH];</span><br><span class="line">    <span class="type">uint32_t</span> flashSize;</span><br><span class="line">    <span class="type">uint32_t</span> appAddr;</span><br><span class="line">    <span class="type">uint32_t</span> firmware_packet;</span><br><span class="line">    <span class="type">char</span> bootVersion[DEVICE_INFO_BOOT_VERSION_LENGTH];</span><br><span class="line">} ALIGNED(<span class="number">1</span>) deviceInfo_t;  <span class="comment">//&#x8FD9;&#x91CC;&#x7684;ALIGNED(1)&#x662F;&#x5355;&#x5B57;&#x8282;&#x5BF9;&#x9F50;&#xFF0C;&#x6700;&#x540E;&#x7684;&#x6E90;&#x7801;&#x4E00;&#x89C8;&#x4F1A;&#x6709;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// &#x8BBE;&#x5907;&#x4FE1;&#x606F;&#x8054;&#x5408;&#x4F53;&#xFF0C;&#x7528;&#x4E8E;&#x6253;&#x5305;</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">union</span> {</span></span><br><span class="line">    <span class="type">uint8_t</span> rawData[<span class="keyword">sizeof</span>(deviceInfo_t)];</span><br><span class="line">    deviceInfo_t deviceInfo;</span><br><span class="line">} BOOT_DeviceInfo_t;</span><br></pre></td></tr></table></figure>
+
+<h3 id="&#x8BBE;&#x5907;&#x4FE1;&#x606F;&#x8BFB;&#x53D6;&#x4E0E;&#x53D1;&#x9001;"><a href="#&#x8BBE;&#x5907;&#x4FE1;&#x606F;&#x8BFB;&#x53D6;&#x4E0E;&#x53D1;&#x9001;" class="headerlink" title="&#x8BBE;&#x5907;&#x4FE1;&#x606F;&#x8BFB;&#x53D6;&#x4E0E;&#x53D1;&#x9001;"></a>&#x8BBE;&#x5907;&#x4FE1;&#x606F;&#x8BFB;&#x53D6;&#x4E0E;&#x53D1;&#x9001;</h3><p>&#x4E0A;&#x4F4D;&#x673A;&#x5728;&#x786E;&#x8BA4;&#x4E0B;&#x4F4D;&#x673A;&#x72B6;&#x6001;&#x65F6;&#x8BF7;&#x6C42;&#x8BBE;&#x5907;&#x4FE1;&#x606F;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;<code>CMD_ENTER_BOOT</code>&#x547D;&#x4EE4;<br>&#x6240;&#x4EE5;&#x5C06;&#x5176;&#x653E;&#x5728;&#x5904;&#x7406;&#x547D;&#x4EE4;&#x7684;<code>Boot_ProcessReceivedCommand</code>&#x4E2D;</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">case</span> CMD_ENTER_BOOT:</span><br><span class="line">    <span class="comment">// &#x5DF2;&#x7ECF;&#x8FDB;&#x5165;Bootloader&#xFF0C;&#x53D1;&#x9001;&#x786E;&#x8BA4;</span></span><br><span class="line">    Boot_SendEnterBootResponse();</span><br><span class="line">    <span class="keyword">break</span>;</span><br></pre></td></tr></table></figure>
+<p><code>Boot_SendEnterBootResponse</code>&#x8D1F;&#x8D23;&#x8BFB;&#x53D6;&#x8BBE;&#x5907;&#x4FE1;&#x606F;&#x5E76;&#x4FDD;&#x5B58;&#xFF0C;&#x7136;&#x540E;&#x5411;&#x4E0A;&#x4F4D;&#x673A;&#x53D1;&#x9001;&#x547D;&#x4EE4;&#x5E27;&#xFF0C;&#x4E0A;&#x4F4D;&#x673A;&#x4E5F;&#x6709;&#x7C7B;&#x4F3C;&#x7684;&#x7C7B;&#x578B;&#x6765;&#x63A5;&#x6536;&#x5E76;&#x4FDD;&#x5B58;&#x5173;&#x952E;&#x4FE1;&#x606F;&#x5982;<strong>&#x56FA;&#x4EF6;&#x5305;&#x5927;&#x5C0F;</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">static</span> <span class="type">void</span> <span class="title function_">Boot_SendEnterBootResponse</span><span class="params">(<span class="type">void</span>)</span> {</span><br><span class="line">    BOOT_DeviceInfo_t device;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">memset</span>(&amp;device, <span class="number">0</span>, <span class="keyword">sizeof</span>(BOOT_DeviceInfo_t));</span><br><span class="line">    <span class="comment">// &#x8BBE;&#x7F6E;&#x8BBE;&#x5907;&#x6A21;&#x578B;&#x540D;</span></span><br><span class="line">    <span class="built_in">strncpy</span>(device.deviceInfo.model, DEVICE_INFO_MODEL,</span><br><span class="line">            DEVICE_INFO_MODEL_LENGTH - <span class="number">1</span>);</span><br><span class="line">    device.deviceInfo.model[DEVICE_INFO_MODEL_LENGTH - <span class="number">1</span>] = <span class="string">&apos;\0&apos;</span>; <span class="comment">// &#x786E;&#x4FDD;&#x7EC8;&#x6B62;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// &#x8BBE;&#x7F6E;flash&#x5C3A;&#x5BF8;</span></span><br><span class="line">    device.deviceInfo.flashSize = DEVICE_INFO_FLASH_SIZE;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// &#x8BBE;&#x7F6E;app&#x52A0;&#x8F7D;&#x5730;&#x5740;</span></span><br><span class="line">    device.deviceInfo.appAddr = DEVICE_INFO_APP_ADDRESS;</span><br><span class="line">    <span class="comment">// &#x8BBE;&#x7F6E;&#x56FA;&#x4EF6;&#x5305;&#x5927;&#x5C0F;</span></span><br><span class="line">    device.deviceInfo.firmware_packet = DEVICE_INFO_FIRMWARE_PACKET_SIZE;</span><br><span class="line">    <span class="comment">// &#x8BBE;&#x7F6E;boot&#x7248;&#x672C;</span></span><br><span class="line">    <span class="built_in">strncpy</span>(device.deviceInfo.bootVersion, DEVICE_INFO_BOOT_VERSION,</span><br><span class="line">            DEVICE_INFO_BOOT_VERSION_LENGTH - <span class="number">1</span>);</span><br><span class="line">    device.deviceInfo.bootVersion[DEVICE_INFO_BOOT_VERSION_LENGTH - <span class="number">1</span>] =</span><br><span class="line">        <span class="string">&apos;\0&apos;</span>; <span class="comment">// &#x786E;&#x4FDD;&#x7EC8;&#x6B62;</span></span><br><span class="line"></span><br><span class="line">    Boot_SendFrame(CMD_ENTER_BOOT, device.rawData, <span class="keyword">sizeof</span>(BOOT_DeviceInfo_t));</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<p>&#x8FD9;&#x6837;&#x5C31;&#x5B8C;&#x6210;&#x4E86;&#x8BBE;&#x5907;&#x4FE1;&#x606F;</p>
+<h2 id="&#x56FA;&#x4EF6;&#x4E0B;&#x8F7D;"><a href="#&#x56FA;&#x4EF6;&#x4E0B;&#x8F7D;" class="headerlink" title="&#x56FA;&#x4EF6;&#x4E0B;&#x8F7D;"></a>&#x56FA;&#x4EF6;&#x4E0B;&#x8F7D;</h2><h3 id="&#x56FA;&#x4EF6;&#x5305;&#x7ED3;&#x6784;&#x5FAE;&#x8C03;"><a href="#&#x56FA;&#x4EF6;&#x5305;&#x7ED3;&#x6784;&#x5FAE;&#x8C03;" class="headerlink" title="&#x56FA;&#x4EF6;&#x5305;&#x7ED3;&#x6784;&#x5FAE;&#x8C03;"></a>&#x56FA;&#x4EF6;&#x5305;&#x7ED3;&#x6784;&#x5FAE;&#x8C03;</h3><p>&#x4E00;&#x5F00;&#x59CB;&#x56FA;&#x4EF6;&#x5305;&#x662F;&#xFF1A;**[&#x5F53;&#x524D;&#x5305;&#x53F7;] [&#x603B;&#x5305;&#x53F7;] [&#x5305;&#x6570;&#x636E;(&#x5047;&#x8BBE;&#x4E3A;1KB)] [&#x5305;&#x6570;&#x636E;&#x7684;CRC32]**<br>&#x6539;&#x4E3A;&#xFF1A; <strong>[&#x5F53;&#x524D;&#x5305;&#x53F7;] [&#x603B;&#x5305;&#x53F7;] [&#x5305;&#x6570;&#x636E;&#x7684;CRC32] [&#x5305;&#x6570;&#x636E;(&#x5047;&#x8BBE;&#x4E3A;1KB)]</strong><br>&#x5C06;&#x5305;&#x6570;&#x636E;&#x7F6E;&#x540E;&#x662F;&#x8003;&#x8651;&#x5230;&#x4E24;&#x70B9;</p>
+<ol>
+<li>&#x4E0A;&#x4F4D;&#x673A;&#x52A0;&#x8F7D;&#x56FA;&#x4EF6;&#x662F;&#x76F4;&#x63A5;&#x5206;&#x5305;&#x5E76;&#x8BA1;&#x7B97;&#x5404;&#x5305;CRC&#xFF0C;&#x7136;&#x540E;&#x624B;&#x52A8;&#x7EC4;&#x5408;&#x6210;&#x5B57;&#x8282;&#x6570;&#x7EC4;</li>
+<li>&#x6709;&#x4E86;&#x8BBE;&#x5907;&#x4FE1;&#x606F;&#x7684;&#x6210;&#x529F;&#x7ECF;&#x9A8C;&#xFF0C;&#x56FA;&#x4EF6;&#x4E0B;&#x8F7D;&#x4E5F;&#x9009;&#x62E9;&#x4E86;&#x4F7F;&#x7528;&#x8054;&#x5408;&#x4F53;</li>
+</ol>
+<p>&#x56E0;&#x4E3A;&#x8054;&#x5408;&#x4F53;&#x4E2D;&#x5305;&#x6570;&#x636E;&#x662F;&#x56FA;&#x5B9A;&#x957F;&#x5EA6;&#xFF0C;&#x5982;&#x679C;&#x4F7F;&#x7528;crc&#x7ED3;&#x5C3E;&#xFF0C;&#x90A3;&#x4E48;&#x6700;&#x540E;&#x4E00;&#x5305;&#x6570;&#x636E;&#x7684;&#x957F;&#x5EA6;&#x5C31;&#x548C;&#x4E4B;&#x524D;&#x7684;&#x4E0D;&#x4E00;&#x6837;&#xFF0C;&#x8054;&#x5408;&#x4F53;&#x8BFB;&#x53D6;&#x65F6;&#x6709;&#x95EE;&#x9898;&#xFF0C;flash&#x7F16;&#x7A0B;&#x65F6;&#x4E5F;&#x8981;&#x8003;&#x8651;&#x6700;&#x540E;&#x4E00;&#x5305;&#xFF0C;&#x6709;&#x70B9;&#x9EBB;&#x70E6;&#x3002;&#x6240;&#x4EE5;&#x76F4;&#x63A5;&#x6539;&#x53D8;&#x56FA;&#x4EF6;&#x5305;&#x7ED3;&#x6784;&#xFF0C;&#x5C06;&#x5305;&#x6570;&#x636E;&#x653E;&#x5728;&#x6700;&#x540E;&#xFF0C;&#x524D;&#x4E09;&#x4E2A;&#x4FE1;&#x606F;&#x662F;&#x56FA;&#x5B9A;&#x957F;&#x5EA6;&#xFF0C;&#x5305;&#x6570;&#x636E;&#x4F4D;&#x7F6E;&#x56FA;&#x5B9A;&#xFF0C;&#x76F4;&#x63A5;&#x4F7F;&#x7528;&#x800C;&#x4E0D;&#x7528;&#x8003;&#x8651;&#x6700;&#x540E;&#x4E00;&#x5305;&#x7684;&#x7279;&#x6B8A;&#x60C5;&#x51B5;</p>
+<h3 id="&#x56FA;&#x4EF6;&#x5305;&#x6570;&#x636E;&#x7C7B;&#x578B;"><a href="#&#x56FA;&#x4EF6;&#x5305;&#x6570;&#x636E;&#x7C7B;&#x578B;" class="headerlink" title="&#x56FA;&#x4EF6;&#x5305;&#x6570;&#x636E;&#x7C7B;&#x578B;"></a>&#x56FA;&#x4EF6;&#x5305;&#x6570;&#x636E;&#x7C7B;&#x578B;</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// boot.h</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// &#x56FA;&#x4EF6;&#x4FE1;&#x606F;&#x5355;&#x4E2A;&#x957F;&#x5EA6; &#x5305;&#x53F7; &#x5305;&#x6570; CRC32&#x90FD;&#x662F;4&#x5B57;&#x8282;</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> FIRMWARE_PACKET_INFO_SIZE 4</span></span><br><span class="line"><span class="comment">// &#x56FA;&#x4EF6;&#x7ED3;&#x6784;&#x4F53;</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> {</span></span><br><span class="line">    <span class="type">uint32_t</span> packetNum;</span><br><span class="line">    <span class="type">uint32_t</span> packetTotalNum;</span><br><span class="line">    <span class="type">uint32_t</span> packetCRC32;</span><br><span class="line">    <span class="type">uint8_t</span> firmware[DEVICE_INFO_FIRMWARE_PACKET_SIZE];</span><br><span class="line">} ALIGNED(<span class="number">1</span>) firmwareInfo_t;</span><br><span class="line"><span class="comment">// &#x56FA;&#x4EF6;&#x8054;&#x5408;&#x4F53;&#xFF0C;&#x7528;&#x4E8E;&#x8BFB;&#x53D6;</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">union</span> {</span></span><br><span class="line">    <span class="type">uint8_t</span> rawDate[<span class="keyword">sizeof</span>(firmwareInfo_t)];</span><br><span class="line">    firmwareInfo_t firmwareInfo;</span><br><span class="line">} BOOT_FirmwareInfo_t;</span><br></pre></td></tr></table></figure>
+<p>&#x56FA;&#x4EF6;&#x4FE1;&#x606F;&#x7C7B;&#x4F5C;&#x4E3A;&#x4E00;&#x4E2A;&#x7F13;&#x51B2;&#x533A;&#xFF0C;&#x5C06;&#x547D;&#x4EE4;&#x5E27;&#x7684;&#x56FA;&#x4EF6;&#x5305;&#x62F7;&#x8D1D;&#x5230;&#x91CC;&#x9762;&#x518D;&#x5904;&#x7406;&#xFF0C;&#x9632;&#x6B62;&#x5199;&#x5165;&#x65F6;&#x56FA;&#x4EF6;&#x5305;&#x88AB;&#x7834;&#x574F;</p>
+<h3 id="&#x56FA;&#x4EF6;&#x5305;&#x8BFB;&#x53D6;&#x4E0E;&#x5199;&#x5165;"><a href="#&#x56FA;&#x4EF6;&#x5305;&#x8BFB;&#x53D6;&#x4E0E;&#x5199;&#x5165;" class="headerlink" title="&#x56FA;&#x4EF6;&#x5305;&#x8BFB;&#x53D6;&#x4E0E;&#x5199;&#x5165;"></a>&#x56FA;&#x4EF6;&#x5305;&#x8BFB;&#x53D6;&#x4E0E;&#x5199;&#x5165;</h3><p>&#x4E0A;&#x4F4D;&#x673A;&#x5728;&#x53D1;&#x9001;&#x4E0A;&#x4F20;&#x547D;&#x4EE4;&#x65F6;&#x643A;&#x5E26;&#x4E86;&#x56FA;&#x4EF6;&#x5305;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;<code>CMD_UPLOAD</code>&#x547D;&#x4EE4;<br>&#x6240;&#x4EE5;&#x5C06;&#x5176;&#x653E;&#x5728;&#x5904;&#x7406;&#x547D;&#x4EE4;&#x7684;<code>Boot_ProcessReceivedCommand</code>&#x4E2D;</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">case</span> CMD_UPLOAD:</span><br><span class="line">    <span class="comment">// &#x5904;&#x7406;&#x56FA;&#x4EF6;&#x4E0A;&#x4F20;</span></span><br><span class="line">    bootErrorCode = Boot_ProcessUploadCommand(&amp;current_frame);</span><br><span class="line">    <span class="keyword">if</span> (bootErrorCode == ERROR_CODE_NO_ERROR) {</span><br><span class="line">        <span class="comment">// &#x6CA1;&#x9519;&#x8BEF;&#x56DE;&#x590D;ack</span></span><br><span class="line">        Boot_SendAckResponse();</span><br><span class="line">    }</span><br><span class="line">    <span class="keyword">break</span>;</span><br></pre></td></tr></table></figure>
+<p><code>Boot_ProcessUploadCommand</code>&#x8D1F;&#x8D23;&#x63A5;&#x6536;&#x56FA;&#x4EF6;&#xFF0C;&#x5199;&#x5165;&#x56FA;&#x4EF6;</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @brief &#x5904;&#x7406;&#x56FA;&#x4EF6;&#x5347;&#x7EA7;&#x6307;&#x4EE4;</span></span><br><span class="line"><span class="comment"> * @param frame &#x547D;&#x4EE4;&#x5E27;</span></span><br><span class="line"><span class="comment"> * @return &#x9519;&#x8BEF;&#x7801;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">BootErrorCode_t <span class="title function_">Boot_ProcessUploadCommand</span><span class="params">(<span class="type">command_frame_t</span> *frame)</span> {</span><br><span class="line">    <span class="comment">// &#x9A8C;&#x8BC1;&#x547D;&#x4EE4;&#x5E27;&#x6216;&#x8005;&#x547D;&#x4EE4;&#x5E27;&#x4E2D;&#x56FA;&#x4EF6;&#x6570;&#x636E;&#x662F;&#x5426;&#x4E3A;&#x7A7A;</span></span><br><span class="line">    <span class="comment">//  (sizeof(firmwareInfo_t) - DEVICE_INFO_FIRMWARE_PACKET_SIZE)==12</span></span><br><span class="line">    <span class="comment">// &#x5305;&#x53F7;+&#x603B;&#x5305;&#x6570;+crc32&#x7684;==12&#x5B57;&#x8282;</span></span><br><span class="line">    <span class="keyword">if</span> (frame == <span class="literal">NULL</span> ||</span><br><span class="line">        frame-&gt;data_length &lt;</span><br><span class="line">            (<span class="keyword">sizeof</span>(firmwareInfo_t) - DEVICE_INFO_FIRMWARE_PACKET_SIZE)) {</span><br><span class="line">        <span class="keyword">return</span> ERROR_CODE_FIRMWARE_INVALID_DATA;</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="comment">// &#x521D;&#x59CB;&#x5316;&#x56FA;&#x4EF6;&#x7F13;&#x51B2;&#x533A;&#x4E3A;0xFF&#xFF08;Flash&#x64E6;&#x9664;&#x72B6;&#x6001;&#xFF09;</span></span><br><span class="line">    <span class="built_in">memset</span>(firmwareInfo.rawDate, <span class="number">0xFF</span>, <span class="keyword">sizeof</span>(firmwareInfo_t));</span><br><span class="line">    <span class="comment">// &#x5185;&#x5B58;&#x62F7;&#x8D1D;&#x786E;&#x4FDD;&#x6570;&#x636E;&#x5BF9;&#x9F50;&#xFF0C;&#x6309;&#x5B9E;&#x9645;&#x6570;&#x636E;&#x957F;&#x5EA6;&#x5199;&#x5165;</span></span><br><span class="line">    <span class="built_in">memcpy</span>(firmwareInfo.rawDate, frame-&gt;data, frame-&gt;data_length);</span><br><span class="line">    <span class="comment">// &#x5FEB;&#x901F;&#x9A8C;&#x8BC1;&#x5305;&#x5E8F;&#x53F7;</span></span><br><span class="line">    <span class="keyword">if</span> (firmwareInfo.firmwareInfo.packetNum &gt;=</span><br><span class="line">        firmwareInfo.firmwareInfo.packetTotalNum) {</span><br><span class="line">        <span class="keyword">return</span> ERROR_CODE_FIRMWARE_INVALID_DATA;</span><br><span class="line">    }</span><br><span class="line">    <span class="comment">// &#x9A8C;&#x8BC1;CRC32</span></span><br><span class="line">    <span class="comment">// todo &#x9A8C;&#x8BC1;crc32 &#x8FD9;&#x91CC;&#x8981;&#x5B9E;&#x73B0;crc&#x6821;&#x9A8C;</span></span><br><span class="line">    <span class="keyword">return</span> Boot_FlashProgram();</span><br><span class="line">    <span class="comment">// return ERROR_CODE_NO_ERROR;</span></span><br><span class="line">}</span><br><span class="line">BootErrorCode_t <span class="title function_">Boot_FlashProgram</span><span class="params">()</span> {</span><br><span class="line">    <span class="comment">// &#x8BA1;&#x7B97;flash&#x5730;&#x5740;</span></span><br><span class="line">    <span class="type">uint32_t</span> flashAddr = (firmwareInfo.firmwareInfo.packetNum *</span><br><span class="line">                          DEVICE_INFO_FIRMWARE_PACKET_SIZE) +</span><br><span class="line">                         APPLICATION_START_ADDRESS;</span><br><span class="line">    <span class="comment">// &#x9A8C;&#x8BC1;&#x5730;&#x5740;&#x5BF9;&#x9F50;&#xFF08;&#x95EA;&#x5B58;&#x5B57;&#x9700;&#x8981;32&#x5B57;&#x8282;&#x5BF9;&#x9F50;&#xFF09;</span></span><br><span class="line">    <span class="keyword">if</span> ((flashAddr &amp; <span class="number">0x1F</span>) != <span class="number">0</span>) {</span><br><span class="line">        <span class="keyword">return</span> ERROR_CODE_FIRMWARE_FLASH_ERROR;</span><br><span class="line">    }</span><br><span class="line"></span><br><span class="line">    <span class="comment">// &#x89E3;&#x9501;Flash</span></span><br><span class="line">    <span class="keyword">if</span> (HAL_FLASH_Unlock() != HAL_OK) {</span><br><span class="line">        <span class="keyword">return</span> ERROR_CODE_FIRMWARE_FLASH_ERROR;</span><br><span class="line">    }</span><br><span class="line">    <span class="type">uint8_t</span> *data_ptr = firmwareInfo.firmwareInfo.firmware;</span><br><span class="line">    <span class="comment">// flash&#x7F16;&#x7A0B;&#x7684;&#x95EA;&#x5B58;&#x5B57;&#x6570;&#xFF08;256&#x4F4D; = 32&#x5B57;&#x8282;&#xFF09;</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">uint32_t</span> byte_offset = <span class="number">0</span>;</span><br><span class="line">         byte_offset &lt; DEVICE_INFO_FIRMWARE_PACKET_SIZE;</span><br><span class="line">         byte_offset += <span class="number">32</span>) { <span class="comment">// &#x6BCF;&#x6B21;&#x6B65;&#x8FDB;32&#x5B57;&#x8282;</span></span><br><span class="line">        <span class="comment">// &#x7F16;&#x7A0B;&#x6570;&#x636E;</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (HAL_FLASH_Program(FLASH_TYPEPROGRAM_FLASHWORD,</span><br><span class="line">                              flashAddr + byte_offset, <span class="comment">// &#x76F4;&#x63A5;&#x4F7F;&#x7528;&#x5B57;&#x8282;&#x504F;&#x79FB;</span></span><br><span class="line">                              (<span class="type">uint32_t</span>)(data_ptr + byte_offset)) != HAL_OK) {</span><br><span class="line">            HAL_FLASH_Lock();</span><br><span class="line">            <span class="keyword">return</span> ERROR_CODE_FIRMWARE_FLASH_ERROR;</span><br><span class="line">        }</span><br><span class="line">    }</span><br><span class="line">    HAL_FLASH_Lock();</span><br><span class="line">    <span class="keyword">return</span> ERROR_CODE_NO_ERROR;</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<p>&#x8FD9;&#x91CC;&#x5F00;&#x59CB;&#x5C31;&#x8981;&#x548C;&#x4E0A;&#x4F4D;&#x673A;&#x914D;&#x5408;&#x4E86;&#xFF0C;&#x672C;&#x6587;&#x53EA;&#x662F;&#x63D0;&#x4F9B;&#x4E00;&#x79CD;&#x56FA;&#x4EF6;&#x4E0B;&#x8F7D;&#x65B9;&#x6CD5;&#x7684;&#x601D;&#x8DEF;&#xFF0C;&#x5177;&#x4F53;&#x4E0B;&#x8F7D;&#x600E;&#x4E48;&#x65B9;&#x4FBF;&#x600E;&#x4E48;&#x6765;</p>
+<h2 id="&#x6E90;&#x7801;&#x4E00;&#x89C8;"><a href="#&#x6E90;&#x7801;&#x4E00;&#x89C8;" class="headerlink" title="&#x6E90;&#x7801;&#x4E00;&#x89C8;"></a>&#x6E90;&#x7801;&#x4E00;&#x89C8;</h2><p>&#x4EE3;&#x7801;&#x5F00;&#x6E90;<a target="_blank" rel="noopener" href="https://github.com/RZJZWD/my_bootloader">&#x5730;&#x5740;</a><br>&#x76F4;&#x63A5;&#x514B;&#x9686;&#x4E0B;&#x6765;&#x770B;&#xFF0C;&#x8FD9;&#x91CC;&#x5C31;&#x4E0D;&#x7C98;&#x8D34;&#x4E86;</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/STM32/" rel="tag"># STM32</a>
+              <a href="/tags/BootLoader/" rel="tag"># BootLoader</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2025/11/08/%E5%B5%8C%E5%85%A5%E5%BC%8Fboot%E5%BC%80%E5%8F%91%EF%BC%88%E4%B8%89%EF%BC%89/" rel="prev" title="嵌入式boot开发（三）">
+                  <i class="fa fa-angle-left"></i> 嵌入式boot开发（三）
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2025/11/21/Deep-Learning-Note/" rel="next" title="深度学习笔记">
+                  深度学习笔记 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">RZJZWD</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>
