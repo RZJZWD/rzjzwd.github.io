@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/icoa_favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha256-dABdfBfUoC8vJUBOwGVdm8L9qlMWaHTIfXt+7GnZCIo=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"rzjzwd.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.23.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":"mac","style":null},"fold":{"enable":true,"height":500},"language":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":"ture","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="飞凌嵌入式RK3506开发板启动预备">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RK3506环境预备">
+<meta property="og:url" content="https://rzjzwd.github.io/2026/01/16/RK3506%E5%90%AF%E5%8A%A8%E9%A2%84%E5%A4%87/index.html">
+<meta property="og:site_name" content="RZJZWD&#39;site">
+<meta property="og:description" content="飞凌嵌入式RK3506开发板启动预备">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-01-16T02:25:00.000Z">
+<meta property="article:modified_time" content="2026-01-21T15:34:48.798Z">
+<meta property="article:author" content="RZJZWD">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="RK3506">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://rzjzwd.github.io/2026/01/16/RK3506%E5%90%AF%E5%8A%A8%E9%A2%84%E5%A4%87/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://rzjzwd.github.io/2026/01/16/RK3506%E5%90%AF%E5%8A%A8%E9%A2%84%E5%A4%87/","path":"2026/01/16/RK3506启动预备/","title":"RK3506环境预备"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>RK3506环境预备 | RZJZWD'site</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous" defer></script>
+<script src="/js/third-party/search/local-search.js" defer></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">RZJZWD'site</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Welcome to my site</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%81%94%E7%BD%91%EF%BC%88%E6%9D%BF%E5%8D%A1%E8%AE%BE%E7%BD%AE%EF%BC%89"><span class="nav-number">2.</span> <span class="nav-text">联网（板卡设置）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#WIFI%E5%90%8D%E4%B8%8E%E5%AF%86%E7%A0%81"><span class="nav-number">2.1.</span> <span class="nav-text">WIFI名与密码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8E%A5%E5%8F%A3%E4%B8%8E%E5%9B%BA%E5%AE%9AIP"><span class="nav-number">2.2.</span> <span class="nav-text">接口与固定IP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E5%BC%80%E6%9C%BA%E8%87%AA%E5%8A%A8%E5%86%99%E5%85%A5DNS%E7%9A%84%E8%84%9A%E6%9C%AC"><span class="nav-number">2.3.</span> <span class="nav-text">添加开机自动写入DNS的脚本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E8%BF%9E%E6%8E%A5"><span class="nav-number">2.4.</span> <span class="nav-text">测试连接</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E8%AE%BE%E7%BD%AE"><span class="nav-number">3.</span> <span class="nav-text">开发环境设置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%B0%E5%BD%95%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C"><span class="nav-number">3.1.</span> <span class="nav-text">记录文件操作</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%80%E6%9C%BA%E5%90%AF%E5%8A%A8%E8%84%9A%E6%9C%AC%E8%AE%BE%E7%BD%AE"><span class="nav-number">4.</span> <span class="nav-text">开机启动脚本设置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%89%93%E5%BC%80UVC%E6%94%AF%E6%8C%81%E5%92%8C%E7%9B%B8%E5%85%B3%E5%B7%A5%E5%85%B7"><span class="nav-number">5.</span> <span class="nav-text">打开UVC支持和相关工具</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#v4l2"><span class="nav-number">5.1.</span> <span class="nav-text">v4l2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#gstreamer"><span class="nav-number">5.2.</span> <span class="nav-text">gstreamer</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#buildroot%E7%BC%96%E8%AF%91%E5%92%8C%E7%BD%91%E7%BB%9C%E9%97%AE%E9%A2%98"><span class="nav-number">6.</span> <span class="nav-text">buildroot编译和网络问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E6%9E%9Clibv4l%E6%8A%A5%E9%94%99"><span class="nav-number">7.</span> <span class="nav-text">如果libv4l报错</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%80%E5%90%AFLVGL9-drm-libjpeg-turbe"><span class="nav-number">8.</span> <span class="nav-text">开启LVGL9 drm libjpeg-turbe</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">RZJZWD</p>
+  <div class="site-description" itemprop="description">learn, programme, EE and life</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://rzjzwd.github.io/2026/01/16/RK3506%E5%90%AF%E5%8A%A8%E9%A2%84%E5%A4%87/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="RZJZWD">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="RZJZWD'site">
+      <meta itemprop="description" content="learn, programme, EE and life">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="RK3506环境预备 | RZJZWD'site">
+      <meta itemprop="description" content="飞凌嵌入式RK3506开发板启动预备">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          RK3506环境预备
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2026-01-16 10:25:00" itemprop="dateCreated datePublished" datetime="2026-01-16T10:25:00+08:00">2026-01-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-01-21 23:34:48" itemprop="dateModified" datetime="2026-01-21T23:34:48+08:00">2026-01-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8FLinux/" itemprop="url" rel="index"><span itemprop="name">嵌入式Linux</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">飞凌嵌入式RK3506开发板启动预备</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="&#x524D;&#x8A00;"><a href="#&#x524D;&#x8A00;" class="headerlink" title="&#x524D;&#x8A00;"></a>&#x524D;&#x8A00;</h2><p>&#x672C;&#x6587;&#x6240;&#x7528;RK3506&#x677F;&#x5361;&#x4E3A;&#x98DE;&#x51CC;&#x5D4C;&#x5165;&#x5F0F;&#x7684;OK3506 512+8 emmc&#x914D;&#x7F6E;&#xFF0C;&#x4E3B;&#x8981;&#x76EE;&#x7684;&#x662F;&#x7528;RK3506&#x914D;&#x5408;UVC&#x505A;&#x89C6;&#x9891;&#x91C7;&#x96C6;&#x548C;&#x63A8;&#x6D41;</p>
+<h2 id="&#x8054;&#x7F51;&#xFF08;&#x677F;&#x5361;&#x8BBE;&#x7F6E;&#xFF09;"><a href="#&#x8054;&#x7F51;&#xFF08;&#x677F;&#x5361;&#x8BBE;&#x7F6E;&#xFF09;" class="headerlink" title="&#x8054;&#x7F51;&#xFF08;&#x677F;&#x5361;&#x8BBE;&#x7F6E;&#xFF09;"></a>&#x8054;&#x7F51;&#xFF08;&#x677F;&#x5361;&#x8BBE;&#x7F6E;&#xFF09;</h2><p>&#x6211;&#x8FD9;&#x91CC;&#x9009;&#x62E9;SSH&#x8FDC;&#x7A0B;&#xFF0C;&#x6240;&#x4EE5;&#x8BA9;&#x5F00;&#x53D1;&#x677F;&#x8FDE;&#x63A5;&#x5C40;&#x57DF;&#x7F51;&#x7136;&#x540E;&#x56FA;&#x5B9A;IP&#x65B9;&#x4FBF;&#x8BBF;&#x95EE;</p>
+<h3 id="WIFI&#x540D;&#x4E0E;&#x5BC6;&#x7801;"><a href="#WIFI&#x540D;&#x4E0E;&#x5BC6;&#x7801;" class="headerlink" title="WIFI&#x540D;&#x4E0E;&#x5BC6;&#x7801;"></a>WIFI&#x540D;&#x4E0E;&#x5BC6;&#x7801;</h3><p>&#x6253;&#x5F00;wpa&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#xFF0C;&#x586B;&#x5199;wifi&#x7684;SSID&#x548C;&#x5BC6;&#x7801;&#xFF08;&#x5982;&#x6709;&#xFF09;<br><code>vi /etc/wpa_supplicant.conf</code><br>&#x5199;&#x5165;&#x4EE5;&#x4E0B;&#x5185;&#x5BB9;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">ctrl_interface=/var/run/wpa_supplicant</span><br><span class="line">ctrl_interface_group=0</span><br><span class="line">update_config=1</span><br><span class="line"></span><br><span class="line">network={</span><br><span class="line">    ssid=&quot;YourWiFiSSID&quot;</span><br><span class="line">    psk=&quot;YourWiFiPassword&quot;</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<h3 id="&#x63A5;&#x53E3;&#x4E0E;&#x56FA;&#x5B9A;IP"><a href="#&#x63A5;&#x53E3;&#x4E0E;&#x56FA;&#x5B9A;IP" class="headerlink" title="&#x63A5;&#x53E3;&#x4E0E;&#x56FA;&#x5B9A;IP"></a>&#x63A5;&#x53E3;&#x4E0E;&#x56FA;&#x5B9A;IP</h3><p>&#x7F16;&#x8F91;&#x63A5;&#x53E3;&#x6587;&#x4EF6;&#x914D;&#x7F6E;ip &#x7F51;&#x5173;&#x7B49;&#x4FE1;&#x606F;<br><code>vi /etc/network/interfaces</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">auto lo</span><br><span class="line">iface lo inet loopback</span><br><span class="line"></span><br><span class="line"># &#x5F7B;&#x5E95;&#x7981;&#x7528; eth0&#xFF0C;&#x4FDD;&#x6301;&#x6CE8;&#x91CA;&#x72B6;&#x6001;</span><br><span class="line">#auto eth0</span><br><span class="line">#iface eth0 inet static</span><br><span class="line">#address 192.168.0.232</span><br><span class="line">#netmask 255.255.255.0</span><br><span class="line">#gateway 192.168.0.1</span><br><span class="line"></span><br><span class="line">auto wlan0</span><br><span class="line">iface wlan0 inet static</span><br><span class="line">        address 192.168.1.17</span><br><span class="line">        netmask 255.255.255.0</span><br><span class="line">        gateway 192.168.1.1 metric 10</span><br><span class="line">        dns-nameservers 8.8.8.8 114.114.114.114</span><br><span class="line">        wpa-conf /etc/wpa_supplicant.conf</span><br></pre></td></tr></table></figure>
+<p>&#x4F46;&#x662F;&#x8FD9;&#x91CC;&#x8BBE;&#x7F6E;DNS&#x662F;&#x4E0D;&#x4F1A;&#x6210;&#x529F;&#x7684;&#xFF0C;&#x5E76;&#x6CA1;&#x6709;&#x5199;&#x5230;<code>/etc/resolv.conf</code> &#x800C;&#x4E14;&#x8FD9;&#x4E2A;&#x6587;&#x4EF6;&#x5B9E;&#x9645;&#x662F;&#x6307;&#x5411;&#x4E86; <code>/tmp/resolv.conf</code></p>
+<h3 id="&#x6DFB;&#x52A0;&#x5F00;&#x673A;&#x81EA;&#x52A8;&#x5199;&#x5165;DNS&#x7684;&#x811A;&#x672C;"><a href="#&#x6DFB;&#x52A0;&#x5F00;&#x673A;&#x81EA;&#x52A8;&#x5199;&#x5165;DNS&#x7684;&#x811A;&#x672C;" class="headerlink" title="&#x6DFB;&#x52A0;&#x5F00;&#x673A;&#x81EA;&#x52A8;&#x5199;&#x5165;DNS&#x7684;&#x811A;&#x672C;"></a>&#x6DFB;&#x52A0;&#x5F00;&#x673A;&#x81EA;&#x52A8;&#x5199;&#x5165;DNS&#x7684;&#x811A;&#x672C;</h3><p>&#x6DFB;&#x52A0;&#x4E00;&#x4E2A;&#x81EA;&#x542F;&#x52A8;&#x811A;&#x672C;&#x5411;&#x6587;&#x4EF6;&#x76F4;&#x63A5;&#x5199;&#x5165;DNS&#x914D;&#x7F6E;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x5728;<code>/userdata/autorun.sh</code>&#x4E2D;&#x914D;&#x7F6E;&#x5F00;&#x673A;&#x81EA;&#x52A8;&#x542F;&#x52A8;&#x7684;&#x547D;&#x4EE4;<br>&#x8FD9;&#x91CC;&#x9009;&#x62E9;&#x540E;&#x8005;<br><code>vi /userdata/autorun.sh</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#! /bin/sh</span><br><span class="line"># env</span><br><span class="line"></span><br><span class="line"># user command</span><br><span class="line">#cd /usr/bin/lvgl/</span><br><span class="line">#/usr/bin/lvgl/demo_lvgl &amp;</span><br><span class="line">echo &quot;nameserver 8.8.8.8&quot; &gt; /etc/resolv.conf</span><br><span class="line">echo &quot;nameserver 114.114.114.114&quot; &gt; /etc/resolv.conf</span><br><span class="line">exit 0</span><br></pre></td></tr></table></figure>
+<h3 id="&#x6D4B;&#x8BD5;&#x8FDE;&#x63A5;"><a href="#&#x6D4B;&#x8BD5;&#x8FDE;&#x63A5;" class="headerlink" title="&#x6D4B;&#x8BD5;&#x8FDE;&#x63A5;"></a>&#x6D4B;&#x8BD5;&#x8FDE;&#x63A5;</h3><p><code>ping www.baidu.com -c 4</code></p>
+<h2 id="&#x5F00;&#x53D1;&#x73AF;&#x5883;&#x8BBE;&#x7F6E;"><a href="#&#x5F00;&#x53D1;&#x73AF;&#x5883;&#x8BBE;&#x7F6E;" class="headerlink" title="&#x5F00;&#x53D1;&#x73AF;&#x5883;&#x8BBE;&#x7F6E;"></a>&#x5F00;&#x53D1;&#x73AF;&#x5883;&#x8BBE;&#x7F6E;</h2><h3 id="&#x8BB0;&#x5F55;&#x6587;&#x4EF6;&#x64CD;&#x4F5C;"><a href="#&#x8BB0;&#x5F55;&#x6587;&#x4EF6;&#x64CD;&#x4F5C;" class="headerlink" title="&#x8BB0;&#x5F55;&#x6587;&#x4EF6;&#x64CD;&#x4F5C;"></a>&#x8BB0;&#x5F55;&#x6587;&#x4EF6;&#x64CD;&#x4F5C;</h3><p>&#x5728;<code>.bashrc</code>&#x6700;&#x540E;&#xFF0C;&#x6DFB;&#x52A0;&#x4EE5;&#x4E0B;&#x811A;&#x672C;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br></pre></td><td class="code"><pre><span class="line"># ========== &#x6587;&#x4EF6;&#x64CD;&#x4F5C;&#x8BB0;&#x5F55;&#x529F;&#x80FD; ==========</span><br><span class="line"># 1. &#x5B9A;&#x4E49;&#x65E5;&#x5FD7;&#x6587;&#x4EF6;&#x5B58;&#x653E;&#x4F4D;&#x7F6E;</span><br><span class="line">export FILE_OPERATION_LOG=&quot;$HOME/.file_operation.log&quot;</span><br><span class="line"></span><br><span class="line"># 2. &#x6539;&#x8FDB;&#x7684;&#x6838;&#x5FC3;&#x51FD;&#x6570;&#xFF1A;&#x7528;&#x4E8E;&#x8BB0;&#x5F55;&#x547D;&#x4EE4;&#xFF08;&#x63A5;&#x6536;&#x6240;&#x6709;&#x53C2;&#x6570;&#xFF09;</span><br><span class="line">function log_command() {</span><br><span class="line">    local timestamp=$(date &quot;+%Y-%m-%d %H:%M:%S&quot;)</span><br><span class="line">    local workdir=&quot;$(pwd)&quot;</span><br><span class="line">    local cmd_line=&quot;$*&quot;</span><br><span class="line">    </span><br><span class="line">    # &#x8BB0;&#x5F55;&#x547D;&#x4EE4;&#x548C;&#x6240;&#x6709;&#x53C2;&#x6570;</span><br><span class="line">    if [ -z &quot;$cmd_line&quot; ]; then</span><br><span class="line">        printf &quot;[%s] [%s] %s\n&quot; &quot;$timestamp&quot; &quot;$workdir&quot; &quot;$1&quot; &gt;&gt; &quot;$FILE_OPERATION_LOG&quot;</span><br><span class="line">    else</span><br><span class="line">        printf &quot;[%s] [%s] %s\n&quot; &quot;$timestamp&quot; &quot;$workdir&quot; &quot;$cmd_line&quot; &gt;&gt; &quot;$FILE_OPERATION_LOG&quot;</span><br><span class="line">    fi</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"># 3. &#x4E3A;&#x6BCF;&#x4E2A;&#x547D;&#x4EE4;&#x521B;&#x5EFA;&#x5305;&#x88C5;&#x51FD;&#x6570;&#xFF08;&#x800C;&#x4E0D;&#x662F;&#x7B80;&#x5355;&#x522B;&#x540D;&#xFF09;</span><br><span class="line">function _cmd_wrapper() {</span><br><span class="line">    local cmd_name=&quot;$1&quot;</span><br><span class="line">    shift</span><br><span class="line">    log_command &quot;$cmd_name&quot; &quot;$@&quot;</span><br><span class="line">    command &quot;$cmd_name&quot; &quot;$@&quot;</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"># 4. &#x4F7F;&#x7528;&#x771F;&#x6B63;&#x7684;&#x522B;&#x540D;&#x6307;&#x5411;&#x5305;&#x88C5;&#x51FD;&#x6570;</span><br><span class="line">alias cp=&apos;_cmd_wrapper cp&apos;</span><br><span class="line">alias mv=&apos;_cmd_wrapper mv&apos;</span><br><span class="line">alias rm=&apos;_cmd_wrapper rm&apos;</span><br><span class="line">alias mkdir=&apos;_cmd_wrapper mkdir&apos;</span><br><span class="line">alias rmdir=&apos;_cmd_wrapper rmdir&apos;</span><br><span class="line">alias touch=&apos;_cmd_wrapper touch&apos;</span><br><span class="line">alias chmod=&apos;_cmd_wrapper chmod&apos;</span><br><span class="line">alias chown=&apos;_cmd_wrapper chown&apos;</span><br><span class="line">alias vim=&apos;_cmd_wrapper vim&apos;</span><br><span class="line">alias nano=&apos;_cmd_wrapper nano&apos;</span><br><span class="line"></span><br><span class="line"># 5. &#x4E00;&#x4E2A;&#x5B9E;&#x7528;&#x7684;&#x8F85;&#x52A9;&#x51FD;&#x6570;&#xFF1A;&#x5FEB;&#x901F;&#x67E5;&#x770B;&#x548C;&#x641C;&#x7D22;&#x6587;&#x4EF6;&#x64CD;&#x4F5C;&#x65E5;&#x5FD7;</span><br><span class="line">function filelog() {</span><br><span class="line">    if [ $# -eq 0 ]; then</span><br><span class="line">        # &#x9ED8;&#x8BA4;&#x7528; less &#x5206;&#x9875;&#x67E5;&#x770B;&#xFF0C;&#x652F;&#x6301;&#x641C;&#x7D22;&#x3002;&#x6309; &apos;q&apos; &#x9000;&#x51FA;&#x3002;</span><br><span class="line">        less -N -i &quot;$FILE_OPERATION_LOG&quot;</span><br><span class="line">    else</span><br><span class="line">        # &#x9AD8;&#x4EAE;&#x663E;&#x793A;&#x5173;&#x952E;&#x8BCD;&#x5E76;&#x5206;&#x9875;&#x67E5;&#x770B;</span><br><span class="line">        grep --color=always -i &quot;$*&quot; &quot;$FILE_OPERATION_LOG&quot; | less -R</span><br><span class="line">    fi</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"># 6. &#x4E00;&#x4E2A;&#x6E05;&#x7406;&#x65E5;&#x5FD7;&#x7684;&#x51FD;&#x6570;&#xFF08;&#x6309;&#x9700;&#x4F7F;&#x7528;&#xFF09;</span><br><span class="line">function filelog_clean() {</span><br><span class="line">    echo &quot;&#x6E05;&#x7A7A;&#x65E5;&#x5FD7;&#x6587;&#x4EF6;&#xFF1A;$FILE_OPERATION_LOG&quot;</span><br><span class="line">    &gt; &quot;$FILE_OPERATION_LOG&quot;</span><br><span class="line">}</span><br><span class="line"></span><br><span class="line"># 7. &#x6D4B;&#x8BD5;&#x51FD;&#x6570;&#xFF08;&#x81EA;&#x52A8;&#x6E05;&#x7406;&#x6240;&#x6709;&#x6D4B;&#x8BD5;&#x6587;&#x4EF6;&#xFF09;</span><br><span class="line">function test_logger() {</span><br><span class="line">    echo &quot;=== &#x6D4B;&#x8BD5;&#x65E5;&#x5FD7;&#x8BB0;&#x5F55;&#x529F;&#x80FD; ===&quot;</span><br><span class="line">    echo &quot;&#x6CE8;&#x610F;&#xFF1A;&#x6240;&#x6709;&#x6D4B;&#x8BD5;&#x6587;&#x4EF6;&#x5C06;&#x5728;&#x5B8C;&#x6210;&#x540E;&#x81EA;&#x52A8;&#x5220;&#x9664;&quot;</span><br><span class="line">    echo &quot;&quot;</span><br><span class="line">    </span><br><span class="line">    # &#x4F7F;&#x7528;&#x8FDB;&#x7A0B;ID&#x548C;&#x65F6;&#x95F4;&#x6233;&#x521B;&#x5EFA;&#x552F;&#x4E00;&#x7684;&#x6D4B;&#x8BD5;&#x6587;&#x4EF6;&#x540D;&#xFF0C;&#x907F;&#x514D;&#x51B2;&#x7A81;</span><br><span class="line">    local timestamp=$(date +%s)</span><br><span class="line">    local test_id=&quot;test_${timestamp}_${$}&quot;  # &#x7EC4;&#x5408;&#x65F6;&#x95F4;&#x6233;&#x548C;&#x8FDB;&#x7A0B;ID</span><br><span class="line">    </span><br><span class="line">    # &#x5B9A;&#x4E49;&#x6D4B;&#x8BD5;&#x6587;&#x4EF6;&#x540D;&#xFF08;&#x4F7F;&#x7528;&#x552F;&#x4E00;&#x6807;&#x8BC6;&#xFF09;</span><br><span class="line">    local test_file1=&quot;${test_id}_file1.txt&quot;</span><br><span class="line">    local test_file2=&quot;${test_id}_file2.txt&quot;</span><br><span class="line">    local renamed_file=&quot;${test_id}_renamed.txt&quot;</span><br><span class="line">    local test_dir=&quot;${test_id}_dir&quot;</span><br><span class="line">    </span><br><span class="line">    # &#x8BB0;&#x5F55;&#x5F00;&#x59CB;&#x65F6;&#x95F4;</span><br><span class="line">    echo &quot;&#x6D4B;&#x8BD5;ID: ${test_id}&quot;</span><br><span class="line">    echo &quot;&#x5F00;&#x59CB;&#x65F6;&#x95F4;: $(date &apos;+%Y-%m-%d %H:%M:%S&apos;)&quot;</span><br><span class="line">    echo &quot;&quot;</span><br><span class="line">    </span><br><span class="line">    # 1. &#x6D4B;&#x8BD5;&#x521B;&#x5EFA;&#x6587;&#x4EF6;</span><br><span class="line">    echo &quot;1. &#x6D4B;&#x8BD5;&#x521B;&#x5EFA;&#x6587;&#x4EF6;...&quot;</span><br><span class="line">    touch &quot;$test_file1&quot; &quot;$test_file2&quot;</span><br><span class="line">    echo &quot;   &#x521B;&#x5EFA;&#x4E86;: $test_file1, $test_file2&quot;</span><br><span class="line">    </span><br><span class="line">    # 2. &#x6D4B;&#x8BD5;&#x4FEE;&#x6539;&#x6743;&#x9650;</span><br><span class="line">    echo &quot;2. &#x6D4B;&#x8BD5;&#x4FEE;&#x6539;&#x6743;&#x9650;...&quot;</span><br><span class="line">    chmod +x &quot;$test_file1&quot;</span><br><span class="line">    echo &quot;   &#x4FEE;&#x6539;&#x4E86; $test_file1 &#x7684;&#x6743;&#x9650;&quot;</span><br><span class="line">    </span><br><span class="line">    # 3. &#x6D4B;&#x8BD5;&#x79FB;&#x52A8;/&#x91CD;&#x547D;&#x540D;&#x6587;&#x4EF6;</span><br><span class="line">    echo &quot;3. &#x6D4B;&#x8BD5;&#x79FB;&#x52A8;&#x6587;&#x4EF6;...&quot;</span><br><span class="line">    mv &quot;$test_file1&quot; &quot;$renamed_file&quot;</span><br><span class="line">    echo &quot;   &#x5C06; $test_file1 &#x91CD;&#x547D;&#x540D;&#x4E3A; $renamed_file&quot;</span><br><span class="line">    </span><br><span class="line">    # 4. &#x6D4B;&#x8BD5;&#x5220;&#x9664;&#x6587;&#x4EF6;</span><br><span class="line">    echo &quot;4. &#x6D4B;&#x8BD5;&#x5220;&#x9664;&#x6587;&#x4EF6;...&quot;</span><br><span class="line">    rm &quot;$test_file2&quot;</span><br><span class="line">    echo &quot;   &#x5220;&#x9664;&#x4E86; $test_file2&quot;</span><br><span class="line">    </span><br><span class="line">    # 5. &#x6D4B;&#x8BD5;&#x521B;&#x5EFA;&#x76EE;&#x5F55;</span><br><span class="line">    echo &quot;5. &#x6D4B;&#x8BD5;&#x521B;&#x5EFA;&#x76EE;&#x5F55;...&quot;</span><br><span class="line">    mkdir &quot;$test_dir&quot;</span><br><span class="line">    echo &quot;   &#x521B;&#x5EFA;&#x4E86;&#x76EE;&#x5F55;: $test_dir&quot;</span><br><span class="line">    </span><br><span class="line">    # 6. &#x6D4B;&#x8BD5;&#x5220;&#x9664;&#x76EE;&#x5F55;&#xFF08;&#x9700;&#x8981;&#x5148;&#x786E;&#x4FDD;&#x76EE;&#x5F55;&#x4E3A;&#x7A7A;&#xFF09;</span><br><span class="line">    echo &quot;6. &#x6D4B;&#x8BD5;&#x5220;&#x9664;&#x76EE;&#x5F55;...&quot;</span><br><span class="line">    rmdir &quot;$test_dir&quot;</span><br><span class="line">    echo &quot;   &#x5220;&#x9664;&#x4E86;&#x76EE;&#x5F55;: $test_dir&quot;</span><br><span class="line">    </span><br><span class="line">    # 7. &#x6D4B;&#x8BD5;&#x65E0;&#x53C2;&#x6570;&#x547D;&#x4EE4;&#xFF08;&#x53EF;&#x9009;&#xFF09;</span><br><span class="line">    echo &quot;7. &#x6D4B;&#x8BD5;&#x65E0;&#x53C2;&#x6570;&#x547D;&#x4EE4;...&quot;</span><br><span class="line">    touch  # &#x65E0;&#x53C2;&#x6570;&#x547D;&#x4EE4;</span><br><span class="line">    echo &quot;   &#x6267;&#x884C;&#x4E86;&#x65E0;&#x53C2;&#x6570;&#x7684; touch &#x547D;&#x4EE4;&quot;</span><br><span class="line">    </span><br><span class="line">    echo &quot;&quot;</span><br><span class="line">    echo &quot;=== &#x6D4B;&#x8BD5;&#x64CD;&#x4F5C;&#x5DF2;&#x5B8C;&#x6210; ===&quot;</span><br><span class="line">    echo &quot;&quot;</span><br><span class="line">    </span><br><span class="line">    # &#x663E;&#x793A;&#x8BB0;&#x5F55;&#x7684;&#x65E5;&#x5FD7;&#xFF08;&#x53EA;&#x663E;&#x793A;&#x672C;&#x6B21;&#x6D4B;&#x8BD5;&#x76F8;&#x5173;&#x7684;&#x8BB0;&#x5F55;&#xFF09;</span><br><span class="line">    echo &quot;=== &#x672C;&#x6B21;&#x6D4B;&#x8BD5;&#x8BB0;&#x5F55;&#x7684;&#x65E5;&#x5FD7; ===&quot;</span><br><span class="line">    if grep -q &quot;$test_id&quot; &quot;$FILE_OPERATION_LOG&quot;; then</span><br><span class="line">        grep &quot;$test_id&quot; &quot;$FILE_OPERATION_LOG&quot;</span><br><span class="line">    else</span><br><span class="line">        # &#x5982;&#x679C;&#x6CA1;&#x627E;&#x5230;&#x552F;&#x4E00;ID&#xFF0C;&#x663E;&#x793A;&#x6700;&#x540E;8&#x6761;&#x8BB0;&#x5F55;</span><br><span class="line">        echo &quot;&#x672A;&#x627E;&#x5230;&#x6D4B;&#x8BD5;ID&#x8BB0;&#x5F55;&#xFF0C;&#x663E;&#x793A;&#x6700;&#x540E;8&#x6761;&#x65E5;&#x5FD7;&#xFF1A;&quot;</span><br><span class="line">        tail -8 &quot;$FILE_OPERATION_LOG&quot;</span><br><span class="line">    fi</span><br><span class="line">    </span><br><span class="line">    echo &quot;&quot;</span><br><span class="line">    </span><br><span class="line">    # 8. &#x6700;&#x7EC8;&#x6E05;&#x7406;&#xFF08;&#x786E;&#x4FDD;&#x5220;&#x9664;&#x6240;&#x6709;&#x53EF;&#x80FD;&#x9057;&#x7559;&#x7684;&#x6D4B;&#x8BD5;&#x6587;&#x4EF6;&#xFF09;</span><br><span class="line">    echo &quot;=== &#x6700;&#x7EC8;&#x6E05;&#x7406; ===&quot;</span><br><span class="line">    local cleanup_count=0</span><br><span class="line">    </span><br><span class="line">    # &#x68C0;&#x67E5;&#x5E76;&#x5220;&#x9664;&#x53EF;&#x80FD;&#x7684;&#x9057;&#x7559;&#x6587;&#x4EF6;</span><br><span class="line">    for file in &quot;$test_file1&quot; &quot;$test_file2&quot; &quot;$renamed_file&quot;; do</span><br><span class="line">        if [ -f &quot;$file&quot; ]; then</span><br><span class="line">            rm -f &quot;$file&quot;</span><br><span class="line">            echo &quot;   &#x5220;&#x9664;&#x4E86;&#x9057;&#x7559;&#x6587;&#x4EF6;: $file&quot;</span><br><span class="line">            cleanup_count=$((cleanup_count + 1))</span><br><span class="line">        fi</span><br><span class="line">    done</span><br><span class="line">    </span><br><span class="line">    # &#x68C0;&#x67E5;&#x5E76;&#x5220;&#x9664;&#x53EF;&#x80FD;&#x7684;&#x9057;&#x7559;&#x76EE;&#x5F55;</span><br><span class="line">    if [ -d &quot;$test_dir&quot; ]; then</span><br><span class="line">        # &#x5982;&#x679C;&#x76EE;&#x5F55;&#x975E;&#x7A7A;&#xFF0C;&#x5148;&#x5220;&#x9664;&#x5185;&#x5BB9;</span><br><span class="line">        if [ &quot;$(ls -A &quot;$test_dir&quot; 2&gt;/dev/null)&quot; ]; then</span><br><span class="line">            rm -rf &quot;$test_dir&quot;/*</span><br><span class="line">            echo &quot;   &#x6E05;&#x7A7A;&#x4E86;&#x76EE;&#x5F55;&#x5185;&#x5BB9;: $test_dir&quot;</span><br><span class="line">        fi</span><br><span class="line">        rmdir &quot;$test_dir&quot;</span><br><span class="line">        echo &quot;   &#x5220;&#x9664;&#x4E86;&#x9057;&#x7559;&#x76EE;&#x5F55;: $test_dir&quot;</span><br><span class="line">        cleanup_count=$((cleanup_count + 1))</span><br><span class="line">    fi</span><br><span class="line">    </span><br><span class="line">    if [ $cleanup_count -eq 0 ]; then</span><br><span class="line">        echo &quot;   &#x6240;&#x6709;&#x6D4B;&#x8BD5;&#x6587;&#x4EF6;&#x5DF2;&#x5728;&#x64CD;&#x4F5C;&#x8FC7;&#x7A0B;&#x4E2D;&#x6E05;&#x7406;&#x5B8C;&#x6BD5;&quot;</span><br><span class="line">    fi</span><br><span class="line">    </span><br><span class="line">    echo &quot;&quot;</span><br><span class="line">    echo &quot;&#x6D4B;&#x8BD5;&#x5B8C;&#x6210;&#x65F6;&#x95F4;: $(date &apos;+%Y-%m-%d %H:%M:%S&apos;)&quot;</span><br><span class="line">    echo &quot;=== &#x6D4B;&#x8BD5;&#x5B8C;&#x6210;&#xFF0C;&#x73AF;&#x5883;&#x5DF2;&#x6E05;&#x7406; ===&quot;</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<p>&#x8FD9;&#x4E2A;&#x811A;&#x672C;&#x4F1A;&#x8BB0;&#x5F55;&#x6307;&#x5B9A;&#x7684;&#x547D;&#x4EE4;&#x5230;&#x6587;&#x4EF6;&#x65E5;&#x5FD7;&#xFF0C;&#x63D0;&#x4F9B;&#x4E00;&#x4E2A;&#x7B80;&#x5355;&#x6587;&#x4EF6;&#x64CD;&#x4F5C;&#x8BB0;&#x5F55;&#xFF0C;&#x4FBF;&#x4E8E;&#x77E5;&#x9053;&#x81EA;&#x5DF1;&#x64CD;&#x4F5C;&#x4E86;&#x54EA;&#x4E9B;&#x6587;&#x4EF6;</p>
+<h2 id="&#x5F00;&#x673A;&#x542F;&#x52A8;&#x811A;&#x672C;&#x8BBE;&#x7F6E;"><a href="#&#x5F00;&#x673A;&#x542F;&#x52A8;&#x811A;&#x672C;&#x8BBE;&#x7F6E;" class="headerlink" title="&#x5F00;&#x673A;&#x542F;&#x52A8;&#x811A;&#x672C;&#x8BBE;&#x7F6E;"></a>&#x5F00;&#x673A;&#x542F;&#x52A8;&#x811A;&#x672C;&#x8BBE;&#x7F6E;</h2><p>&#x7F16;&#x8BD1;&#x5230;&#x955C;&#x50CF;<br><code>vim ~/work/OK3506_Linux_Source/device/rockchip/common/extra-parts/userdata/normal/autorun.sh</code><br>&#x677F;&#x5361;&#x4E34;&#x65F6;&#x4FEE;&#x6539;<br><code>vi /userdata/autorun.sh</code><br>&#x53EF;&#x4EE5;&#x4F7F;&#x7528;fl&#x7684;wifi&#x5DE5;&#x5177;&#x81EA;&#x52A8;&#x8054;&#x7F51;&#x548C;&#x67E5;&#x770B;ip&#xFF0C;&#x65B9;&#x4FBF;&#x4E32;&#x53E3;&#x8FDE;&#x63A5;&#x540E;&#x77E5;&#x9053;ip</p>
+<h2 id="&#x6253;&#x5F00;UVC&#x652F;&#x6301;&#x548C;&#x76F8;&#x5173;&#x5DE5;&#x5177;"><a href="#&#x6253;&#x5F00;UVC&#x652F;&#x6301;&#x548C;&#x76F8;&#x5173;&#x5DE5;&#x5177;" class="headerlink" title="&#x6253;&#x5F00;UVC&#x652F;&#x6301;&#x548C;&#x76F8;&#x5173;&#x5DE5;&#x5177;"></a>&#x6253;&#x5F00;UVC&#x652F;&#x6301;&#x548C;&#x76F8;&#x5173;&#x5DE5;&#x5177;</h2><p>&#x64CD;&#x4F5C;&#x5185;&#x6838;&#x914D;&#x7F6E;<br>&#x5728;SDK&#x76EE;&#x5F55;&#x4E0B;&#x4F7F;&#x7528;<code>./build.sh kconfig</code>&#x8FDB;&#x5165;&#x5185;&#x6838;&#x7F16;&#x8BD1;&#xFF0C;&#x7136;&#x540E;<br><code>Device Driver</code>&#x2013;&gt;<code>Multimedia support</code>&#x2013;&gt;<code>Media drivers</code>&#x2013;&gt;&#x6309;<strong>Y</strong>&#x9009;&#x62E9;<code>Media USB Adapters</code>&#x5E76;&#x8FDB;&#x5165;&#x2013;&gt;&#x9009;&#x62E9;<code>USB Video Class</code> <code>UVC input events device support</code></p>
+<p>buildroot&#x914D;&#x7F6E;&#x7528;&#x6237;&#x7A7A;&#x95F4;&#x5DE5;&#x5177;<br>&#x5728;SDK&#x76EE;&#x5F55;&#x4E0B;&#x4F7F;&#x7528;<code>./build.sh bconfig</code>&#x8FDB;&#x5165;buildroot&#x7F16;&#x8BD1;&#xFF0C;&#x7136;&#x540E;</p>
+<h3 id="v4l2"><a href="#v4l2" class="headerlink" title="v4l2"></a>v4l2</h3><p><code>Target packages</code>&#x2013;&gt;<code>Libraries</code>&#x2013;&gt;<code>Hardware handling</code>&#x2013;&gt;&#x9009;&#x62E9;<code>libv4l</code>&#x4EE5;&#x53CA;&#x4E0B;&#x9762;&#x7684;<code>v4l-utils tools</code>&#x548C;&#x53E6;&#x4E00;&#x4E2A;&#x63D2;&#x4EF6;BR2_PACKAGE_LIBV4L_BUILTIN_PLUGINS</p>
+<h3 id="gstreamer"><a href="#gstreamer" class="headerlink" title="gstreamer"></a>gstreamer</h3><p><code>Target packages</code>&#x2013;&gt;<code>Audio and video applications</code>&#x2013;&gt;&#x9009;&#x62E9;y<code>gstreamer 1.x</code>&#x2013;&gt;&#x5F00;&#x542F;&#x4EE5;&#x4E0B;&#x7684;&#x63D2;&#x4EF6;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">BR2_PACKAGE_GSTREAMER1=y</span><br><span class="line">BR2_PACKAGE_GST1_PLUGINS_BASE=y</span><br><span class="line">BR2_PACKAGE_GST1_PLUGINS_GOOD=y &#x5F00;&#x542F;v4l2&#x7684;&#x5B50;&#x63D2;&#x4EF6;&#x548C;v4l2&#xFF08;m2m&#xFF09;</span><br><span class="line">BR2_PACKAGE_GST1_PLUGINS_BAD=y</span><br><span class="line">BR2_PACKAGE_GST1_PLUGINS_UGLY=y</span><br><span class="line">BR2_PACKAGE_GST1_LIBAV=y</span><br><span class="line">BR2_PACKAGE_GST1_RTSP_SERVER=y</span><br></pre></td></tr></table></figure>
+
+<h2 id="buildroot&#x7F16;&#x8BD1;&#x548C;&#x7F51;&#x7EDC;&#x95EE;&#x9898;"><a href="#buildroot&#x7F16;&#x8BD1;&#x548C;&#x7F51;&#x7EDC;&#x95EE;&#x9898;" class="headerlink" title="buildroot&#x7F16;&#x8BD1;&#x548C;&#x7F51;&#x7EDC;&#x95EE;&#x9898;"></a>buildroot&#x7F16;&#x8BD1;&#x548C;&#x7F51;&#x7EDC;&#x95EE;&#x9898;</h2><p>&#x4F7F;&#x7528;<code>./build.sh bconfig</code>&#x914D;&#x7F6E;&#x955C;&#x50CF;&#x7AD9;&#xFF0C;&#x5177;&#x4F53;&#x955C;&#x50CF;&#x7AD9;&#x7F51;&#x4E0A;&#x67E5;<br><code>export RK_NETWORK_CHECK=n</code>&#x6765;&#x5173;&#x95ED;&#x7F51;&#x7EDC;&#x68C0;&#x67E5;</p>
+<p>&#x5982;&#x679C;&#x8FD8;&#x662F;&#x4E0B;&#x4E0D;&#x52A8;&#xFF0C;&#x5C31;&#x66F4;&#x65B0;CA&#x8BC1;&#x4E66;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install ca-certificates</span><br><span class="line">sudo update-ca-certificates</span><br></pre></td></tr></table></figure>
+<h2 id="&#x5982;&#x679C;libv4l&#x62A5;&#x9519;"><a href="#&#x5982;&#x679C;libv4l&#x62A5;&#x9519;" class="headerlink" title="&#x5982;&#x679C;libv4l&#x62A5;&#x9519;"></a>&#x5982;&#x679C;<code>libv4l</code>&#x62A5;&#x9519;</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">2026-01-06T23:21:53 /home/forlinx/work/OK3506_Linux_Source/buildroot/output/rockchip_ok3506_emmc/host/arm-buildroot-linux-gnueabihf/sysroot/usr/include/features-time64.h:26:5: error: #error &quot;_TIME_BITS=64 is allowed only with _FILE_OFFSET_BITS=64&quot;</span><br><span class="line">2026-01-06T23:21:53 26 | #   error &quot;_TIME_BITS=64 is allowed only with _FILE_OFFSET_BITS=64&quot;</span><br><span class="line">2026-01-06T23:21:53 |     ^~~~~</span><br><span class="line">2026-01-06T23:21:53 make[5]: *** [Makefile:684: v4l2convert_la-v4l2convert.lo] Error 1</span><br></pre></td></tr></table></figure>
+<p>&#x8FD9;&#x662F;<code>_TIME_BITS=64</code>&#x7F16;&#x8BD1;&#x9519;&#x8BEF; &#x7F16;&#x8BD1;&#x5668;&#x8981;&#x6C42;&#x5B9A;&#x4E49;<code>_TIME_BITS=64</code>&#x65F6;&#x5FC5;&#x987B;&#x4E5F;&#x8981;&#x5B9A;&#x4E49;<code>_FILE_OFFSET_BITS=64</code><br>&#x7ECF;&#x8FC7;&#x6211;&#x4E0D;&#x65AD;&#x7684;&#x5C1D;&#x8BD5;&#xFF0C;&#x5305;&#x62EC;&#x4F46;&#x4E0D;&#x9650;&#x4E8E;&#x6253;&#x8865;&#x4E01;&#xFF0C;&#x6839;&#x636E;&#x62A5;&#x9519;&#x4FE1;&#x606F;&#x6539;&#x6E90;&#x7801;&#x7B49;&#x65B9;&#x6CD5;&#xFF0C;&#x5373;&#x4F7F;&#x662F;&#x624B;&#x52A8;&#x5B9A;&#x4E49;<code>_FILE_OFFSET_BITS=64</code>&#x4E5F;&#x4F1A;&#x6709;64&#x4F4D;&#x6587;&#x4EF6;&#x64CD;&#x4F5C;&#x51FD;&#x6570;&#x7684;&#x95EE;&#x9898;</p>
+<p>&#x6700;&#x7EC8;&#x89E3;&#x51B3;&#x529E;&#x6CD5;&#x662F;&#x5BF9;&#x8FD9;&#x4E2A;&#x5E93;&#x53D6;&#x6D88;<code>_TIME_BITS</code>&#x5B8F;&#x5B9A;&#x4E49;<br>&#x5728;<code>/home/forlinx/work/OK3506_Linux_Source/buildroot/package/libv4l/</code>&#x4E0B;&#x521B;&#x5EFA;<code>local.mk</code>&#x5BF9;&#x539F;&#x59CB;&#x7684;mk&#x6587;&#x4EF6;&#x8FDB;&#x884C;&#x8FFD;&#x52A0;&#x8BBE;&#x7F6E;&#xFF0C;<br>&#x5199;&#x5165;<code>LIBV4L_CONF_ENV = CFLAGS=&quot;$(TARGET_CFLAGS) -U_TIME_BITS&quot;</code><br><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/ask/sof/107085482">&#x7C7B;&#x4F3C;&#x7684;&#x95EE;&#x9898;</a></p>
+<p>&#x5982;&#x679C;&#x540E;&#x9762;&#x518D;&#x9047;&#x5230;<code>_TIME_BITS=64</code>&#x7F16;&#x8BD1;&#x9519;&#x8BEF;&#x8FD9;&#x4E2A;&#x95EE;&#x9898;&#xFF0C;&#x76F4;&#x63A5;&#x5173;&#x4E86;&#x5C31;&#x884C;</p>
+<h2 id="&#x5F00;&#x542F;LVGL9-drm-libjpeg-turbe"><a href="#&#x5F00;&#x542F;LVGL9-drm-libjpeg-turbe" class="headerlink" title="&#x5F00;&#x542F;LVGL9 drm libjpeg-turbe"></a>&#x5F00;&#x542F;LVGL9 drm libjpeg-turbe</h2><p>&#x4F7F;&#x7528;<code>./build.sh bconfig</code>&#x8FDB;&#x5165;package-&gt;audio and video-&gt;lvgl-&gt;3rd party-&gt;libjpeg</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Linux/" rel="tag"># Linux</a>
+              <a href="/tags/RK3506/" rel="tag"># RK3506</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2025/11/21/Deep-Learning-Note/" rel="prev" title="深度学习笔记">
+                  <i class="fa fa-angle-left"></i> 深度学习笔记
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">RZJZWD</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>
