@@ -572,7 +572,7 @@ pre .caption a:hover {
 }
 pre,
 code {
-  font-family: consolas, Menlo, monospace, 'PingFang SC', 'Microsoft YaHei';
+  font-family: Maple Mono NF CN, consolas, Menlo, monospace, 'PingFang SC', 'Microsoft YaHei';
 }
 code {
   border-radius: 3px;
@@ -803,6 +803,10 @@ pre code {
   100% {
     transform: translate(1pt, -2pt) rotate(-1deg);
   }
+}
+.mermaid {
+  margin-bottom: 20px;
+  text-align: center;
 }
 .post-body .note {
   border-radius: 3px;
@@ -1279,7 +1283,7 @@ pre code {
     vertical-align: middle;
   }
   .links-of-author a::before {
-    background: #f63bc3;
+    background: #539574;
     display: inline-block;
     margin-right: 3px;
     transform: translateY(-2px);
